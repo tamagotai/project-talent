@@ -39,7 +39,6 @@ export default {
       INSERT INTO users (username, firstname, lastname, email, password, mobile, landline, role_id)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `, [username, firstname, lastname, email, password, mobile, landline, role_id]);
-    const id = result.insertId;
-    return getUserById(id);
+    return result.insertId;
   },
 };

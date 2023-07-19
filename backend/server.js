@@ -1,7 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import cors from 'cors';
 import pool from './database.js';
+import 'express-async-errors';
+import cors from 'cors';
 import errorController from './controllers/errorController.js';
 import userRoutes from './routes/userRoutes.js';
 
@@ -9,12 +10,18 @@ import userRoutes from './routes/userRoutes.js';
 const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(cors());
 
 app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
 });
+
+//cors middleware
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
 //routes
 app.use('/api/users', userRoutes);

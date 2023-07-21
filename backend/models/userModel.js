@@ -1,4 +1,6 @@
 import pool from '../database.js';
+import bcrypt from 'bcrypt';
+import validator from 'validator';
 
 export default {
   getUsers: async () => {
@@ -34,11 +36,24 @@ export default {
   },
 
   createUser: async (user) => {
-    const { username, firstname, lastname, email, password, mobile, landline, role_id } = user;
+    const { username, firstname, lastname, email, password, confirmPassword } = user;
+    if (!validator.isEmail(email)) throw new Error('Invalid email');
+
+    // Check for existing username or email
+    const [existingUser] = await pool.query(`
+      SELECT * 
+      FROM users 
+      WHERE email = ? OR username = ?
+    `, [email, username]);
+
+    if (existingUser) throw new Error('User with the same email or username already exists');
+
+    const hashedPassword = bcrypt.hashSync(password, 10);
     const [result] = await pool.query(`
-      INSERT INTO users (username, firstname, lastname, email, password, mobile, landline, role_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `, [username, firstname, lastname, email, password, mobile, landline, role_id]);
+      INSERT INTO users (username, firstname, lastname, email, password)
+      VALUES (?, ?, ?, ?, ?)
+    `, [username, firstname, lastname, email, hashedPassword]);
     return result.insertId;
   },
+
 };

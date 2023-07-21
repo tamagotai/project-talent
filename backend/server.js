@@ -5,6 +5,7 @@ import 'express-async-errors';
 import cors from 'cors';
 import errorController from './controllers/errorController.js';
 import userRoutes from './routes/userRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 // CONFIGURATION
 const app = express();
@@ -16,25 +17,21 @@ app.use((req, res, next) => {
     next()
 });
 
-//cors middleware
-const corsOptions = {
+//cors
+app.use(cors({
   origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+  methods: "GET,POST,PUT,DELET",
+  credentials: true,
+}));
 
 //routes
 app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 
 //error handler
 app.use(errorController.get404);
 app.use(errorController.get500);
 
-//global error handler
-// app.use((err, req, res, next) => {
-//   console.log(err)
-//   res.status(err.status || 500).send('Something wrong!')
-// })
 
 // connect to the database 
 pool.query("SELECT 1")

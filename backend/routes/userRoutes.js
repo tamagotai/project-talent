@@ -1,21 +1,22 @@
 import express from 'express';
 import userController from '../controllers/userController.js';
+import { verifyToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
 //Get all users
-router.get('/', userController.getUsers)
+router.get('/', verifyToken, userController.getUsers)
 
 //GET a single page
-router.get('/:id', userController.getUser)
+router.get('/:id', verifyToken, userController.getUser)
 
 //POST a new user
 router.post('/', userController.createUser)
 
 //DELETE a user
-router.delete('/:id', userController.deleteUser)
+router.delete('/:id', verifyToken, userController.deleteUser)
 
 //UPDATE a user
-router.patch('/:id', userController.updateUser)
+router.put('/:id', verifyToken, userController.updateUser)
 
 export default router;

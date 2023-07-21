@@ -1,1 +1,1 @@
-This is a course project of COMP902
+This is a COMP902 course project

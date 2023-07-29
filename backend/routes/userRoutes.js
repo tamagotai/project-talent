@@ -10,13 +10,22 @@ router.get('/', verifyToken, userController.getUsers)
 //GET a single page
 router.get('/:id', verifyToken, userController.getUser)
 
-//POST a new user
-router.post('/', userController.createUser)
-
 //DELETE a user
 router.delete('/:id', verifyToken, userController.deleteUser)
 
 //UPDATE a user
 router.put('/:id', verifyToken, userController.updateUser)
+
+//register
+router.post('/register', userController.createUser)
+
+//login
+router.post('/login', userController.login)
+
+//logout
+router.post('/logout', userController.logout)
+
+// Admin user only
+//router.get('/adminonly', verifyToken, adminOnly, userController.adminonly);
 
 export default router;

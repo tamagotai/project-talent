@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 //cors
 app.use(cors({
   origin: 'http://localhost:3000',
-  methods: "GET,POST,PUT,DELET",
+  methods: "GET,POST,PUT,DELETE",
   credentials: true,
 }));
 

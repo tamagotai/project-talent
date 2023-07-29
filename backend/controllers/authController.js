@@ -14,11 +14,15 @@ export default {
           WHERE ${field} = ?
         `, [usernameOrEmail]);
     
-        if (!user) throw new Error('No user found');
+        if (!user) {
+            throw new Error('No user found');
+        }
     
         const isMatch = bcrypt.compareSync(password, user.password);
     
-        if (!isMatch) throw new Error('Incorrect password');
+        if (!isMatch) {
+            throw new Error('Incorrect password');
+        }
     
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     
@@ -26,25 +30,30 @@ export default {
       },
 
     register: async (user) => {
-        const { username, firstname, lastname, email, password, confirmPassword } = user;
-        if (!validator.isEmail(email)) throw new Error('Invalid email');
-        if (!validator.isStrongPassword(password)) throw new Error('Weak password');
-        if (password !== confirmPassword) throw new Error('Passwords do not match');
-
+        const { username, firstname, lastname, email, password, mobile, landline, role_id } = user;
+        if (!validator.isEmail(email)) {
+            throw new Error('Invalid email');
+        }
+        if (!validator.isStrongPassword(password)) {
+            throw new Error('Weak password');
+        }
+    
         // Check for existing username or email
-        const [existingUser] = await pool.query(`
+        const [users] = await pool.query(`
             SELECT * 
             FROM users 
             WHERE email = ? OR username = ?
-        `, [email, username]);
-
-        if (existingUser) throw new Error('User with the same email or username already exists');
-
+            `, [email, username]);
+    
+        if (users.length > 0) {
+            throw new Error('User with the same email or username already exists');
+        }
+    
         const hashedPassword = bcrypt.hashSync(password, 10);
         const [result] = await pool.query(`
-            INSERT INTO users (username, firstname, lastname, email, password)
-            VALUES (?, ?, ?, ?, ?)
-        `, [username, firstname, lastname, email, hashedPassword]);
+            INSERT INTO users (username, firstname, lastname, email, password, mobile, landline, role_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            `, [username, firstname, lastname, email, hashedPassword, mobile, landline, role_id]);
         return result.insertId;
     },
 }

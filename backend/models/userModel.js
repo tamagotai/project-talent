@@ -27,33 +27,74 @@ export default {
 
   updateUser: async (id, updatedUser) => {
     const { username, firstname, lastname, email, password, mobile, landline, role_id } = updatedUser;
+    if (!validator.isEmail(email)) {
+      throw new Error('Invalid email');
+    }
+    const hashedPassword = password ? bcrypt.hashSync(password, 10) : null;
+
     const [{affectedRows}] = await pool.query(`
       UPDATE users
       SET username = ?, firstname = ?, lastname = ?, email = ?, password = ?, mobile = ?, landline = ?, role_id = ?
       WHERE id = ?
-    `, [username, firstname, lastname, email, password, mobile, landline, role_id, id]);
+    `, [username, firstname, lastname, email, hashedPassword || password, mobile, landline, role_id, id]);
+
     return affectedRows;
   },
 
   createUser: async (user) => {
-    const { username, firstname, lastname, email, password, confirmPassword } = user;
-    if (!validator.isEmail(email)) throw new Error('Invalid email');
-
+    const { username, firstname, lastname, email, password, mobile, landline, role_id } = user;
+    if (!username || !firstname || !lastname || !email || !password ) {
+      throw new Error('All mandatory fields must be filled');
+    }
+    if (!validator.isEmail(email)) {
+      throw new Error('Invalid email');
+    }
+    if (!validator.isStrongPassword(password)) {
+      throw new Error('Weak password');
+    }
     // Check for existing username or email
-    const [existingUser] = await pool.query(`
+    const [users] = await pool.query(`
       SELECT * 
       FROM users 
       WHERE email = ? OR username = ?
     `, [email, username]);
-
-    if (existingUser) throw new Error('User with the same email or username already exists');
+    
+    if (users.length > 0) {
+      throw new Error('User with the same email or username already exists');
+    }
 
     const hashedPassword = bcrypt.hashSync(password, 10);
     const [result] = await pool.query(`
-      INSERT INTO users (username, firstname, lastname, email, password)
-      VALUES (?, ?, ?, ?, ?)
-    `, [username, firstname, lastname, email, hashedPassword]);
-    return result.insertId;
+      INSERT INTO users (username, firstname, lastname, email, password, mobile, landline, role_id)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `, [username, firstname, lastname, email, hashedPassword, mobile, landline, role_id]);
+    return result.insertId
+  },
+
+  login: async (usernameOrEmail, password) => {
+    if (!usernameOrEmail || !password ) {
+      throw new Error('All fields must be filled');
+    }
+    const isEmail = validator.isEmail(usernameOrEmail);
+    const field = isEmail ? 'email' : 'username';
+  
+    const [[user]] = await pool.query(`
+      SELECT * 
+      FROM users 
+      WHERE ${field} = ?
+    `, [usernameOrEmail]);
+
+    if (!user) {
+        throw new Error('No user found');
+    }
+
+    const isMatch = bcrypt.compareSync(password, user.password);
+
+    if (!isMatch) {
+        throw new Error('Incorrect password');
+    }
+
+    return user;
   },
 
 };

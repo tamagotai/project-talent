@@ -1,12 +1,16 @@
-import { Flex, Box, VStack, Text, Divider, Input, Button, FormControl, FormLabel} from '@chakra-ui/react'
+import { Flex, Box, VStack, Text, Divider, Input, Button, FormControl, FormLabel, Link} from '@chakra-ui/react'
 import { FaGoogle, FaFacebook, FaGithub } from 'react-icons/fa';
 import { useState } from 'react';
+import useLogin from '../hooks/useLogin';
 
 export default function Login() {
-  const [usernameOrEmail, setUsernameOrEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const handleLogin = () => {
-    // Call the login API with usernameOrEmail and password
+  const [usernameOrEmail, setUsernameOrEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const {login, error, isLoading} =useLogin()
+
+  const handleLogin = async(e) => {
+    e.preventDefault();
+    await login(usernameOrEmail, password)
   };
 
   const google = () => {
@@ -24,13 +28,14 @@ export default function Login() {
   return (
     <Flex className="login" align="center" justify="center" h="calc(100vh - 50px)">
       <VStack spacing="8">
-        <Text fontSize="xl" fontWeight="bold">Choose a Login Method</Text>
+        <Text fontSize="xl" fontWeight="bold">Login</Text>
         <Flex align="center">
-          <Box className="left">
+          <Box className="left" display="flex" flexDirection="column" my={2}>
             <Button
               leftIcon={<FaGoogle />}
               colorScheme="red"
               onClick={google}
+              my={1}
             >
               Google
             </Button>
@@ -38,6 +43,7 @@ export default function Login() {
               leftIcon={<FaFacebook />}
               colorScheme="facebook"
               onClick={facebook}
+              my={1}
             >
               Facebook
             </Button>
@@ -45,6 +51,7 @@ export default function Login() {
               leftIcon={<FaGithub />}
               colorScheme="gray"
               onClick={github}
+              my={1}
             >
               Github
             </Button>
@@ -54,18 +61,37 @@ export default function Login() {
             <form onSubmit={handleLogin}>
               <FormControl>
                 <FormLabel>Username or Email</FormLabel>
-                <Input type="text" value={usernameOrEmail} onChange={(e) => setUsernameOrEmail(e.target.value)} mb="4"/>
+                <Input 
+                  type="text" 
+                  value={usernameOrEmail} 
+                  onChange={(e) => setUsernameOrEmail(e.target.value)} 
+                  mb="4"
+                />
               </FormControl>
 
               <FormControl>
                 <FormLabel>Password</FormLabel>
-                <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} mb="4"/>
+                <Input 
+                  type="password" 
+                  value={password} 
+                  onChange={(e) => setPassword(e.target.value)} 
+                  mb="4"
+                />
               </FormControl>
 
-              <Button type="submit" colorScheme="purple" fontWeight="bold">Login</Button>
+              <Button 
+                disabled={isLoading} 
+                type="submit" 
+                colorScheme="green" 
+                fontWeight="bold"
+              >
+                Login
+              </Button>
+              {error && <Text>{error}</Text>}
             </form>
           </Box>
         </Flex>
+        <Text display="flex">If you are new, please <Link href="/signup" mx="2px"> join us  </Link>.</Text>
       </VStack>
     </Flex>  
   )

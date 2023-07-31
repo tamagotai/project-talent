@@ -2,7 +2,8 @@ import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
 export default function useAuth() {
-//   return useContext(AuthContext);
-    const { isLoading, isAuthenticated, user } = useContext(AuthContext);
-    return { isLoading, isAuthenticated, user };
+    const context = useContext(AuthContext);
+    console.log("AuthContext Value:", context);
+    const { isLoading, isAuthenticated, user, dispatch } = context;
+    return { isLoading, isAuthenticated, user, dispatch };
 }

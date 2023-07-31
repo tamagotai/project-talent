@@ -28,6 +28,7 @@ export default function Signup() {
       initialValues={initialValues}
       validationSchema={UserSchema}
       onSubmit={(values, actions) => {
+        console.log("Submitting with values:", values); // Log the values before submitting
         signup(
           values.role,
           values.username,
@@ -38,7 +39,11 @@ export default function Signup() {
           values.landline,
           values.password,
           values.confirmPassword
-        ).catch((err) => {
+        ).then(response => {
+          console.log("Signup success:", response); // Log successful response
+        })
+        .catch((err) => {
+          console.log("Signup error:", err); // Log any error
           actions.setSubmitting(false);
           actions.setErrors({ submit: err.message });
         });
@@ -46,10 +51,9 @@ export default function Signup() {
       }}
     >
       {formik => (
-      <Box maxW="xl" alignContent="center" mx="auto">
+      <Box as="form" onSubmit={formik.handleSubmit} maxW="xl" alignContent="center" mx="auto">
         <Text fontSize="xl" fontWeight="bold">Register</Text>
         <Grid
-          as="form"
           templateColumns="repeat(4, minmax(0, 1fr)"
           gap="30px"
           mx="auto"
@@ -57,7 +61,6 @@ export default function Signup() {
           sx={{
             "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
           }}
-          onSubmit={formik.handleSubmit}
         > 
           <RadioInput
             label="Select your role"
@@ -71,10 +74,10 @@ export default function Signup() {
           <TextField label="Firstname" name="firstname" placeholder="Firstname" />
           <TextField label="Lastname" name="lastname" placeholder="Lastname" />
           <TextField label="Email" name="email" placeholder="Email" />
-          <TextField label="Mobile" name="mobile" placeholder="Mobile" />
-          <TextField label="Landline" name="landline" placeholder="Landline" />
-          <TextField label="Password" name="password" placeholder="Password" />
-          <TextField label="Confirm Password" name="confirmPassword" placeholder="Confirm password" />
+          <TextField label="Mobile" type="tel" name="mobile" placeholder="Mobile" />
+          <TextField label="Landline" type="tel" name="landline" placeholder="Landline" />
+          <TextField label="Password" type="password" name="password" placeholder="Password" />
+          <TextField label="Confirm Password" type="password" name="confirmPassword" placeholder="Confirm password" />
         </Grid>
           <Button
             colorScheme="green"
@@ -85,8 +88,7 @@ export default function Signup() {
           >
             Register
           </Button>
-          {error && <Text>{error}</Text>}
-        
+          {error && <Text>{error}</Text>}        
         <Text display="flex">If you have an account, please <Link href="/login" mx="2px"> login </Link>.</Text>
       </Box>
     )}

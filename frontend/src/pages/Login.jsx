@@ -1,98 +1,88 @@
-import { Flex, Box, VStack, Text, Divider, Input, Button, FormControl, FormLabel, Link} from '@chakra-ui/react'
-import { FaGoogle, FaFacebook, FaGithub } from 'react-icons/fa';
-import { useState } from 'react';
-import useLogin from '../hooks/useLogin';
+import { 
+  Grid, GridItem, Box, 
+  Text, Button, Link, useMediaQuery
+} from '@chakra-ui/react'
+import { useLogin } from '../hooks/useLogin';
+import { Formik } from "formik";
+import { LoginSchema } from '../Validations/UserValidation';
+import TextField from '../components/Form/TextField';
 
 export default function Login() {
-  const [usernameOrEmail, setUsernameOrEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const {login, error, isLoading} =useLogin()
-
-  const handleLogin = async(e) => {
-    e.preventDefault();
-    await login(usernameOrEmail, password)
-  };
-
-  const google = () => {
-      window.open("http://localhost:5000/auth/google", "_self");
-    };
-  
-  const github = () => {
-      window.open("http://localhost:5000/auth/github", "_self");
-    };
-  
-  const facebook = () => {
-      window.open("http://localhost:5000/auth/facebook", "_self");
-    };
+  const isNonMobile = useMediaQuery("(min-width:600px)");
+  const { login, isLoading, error } = useLogin();
+  const initialValues = {    
+    usernameOrEmail: '',
+    password: '',
+  }
 
   return (
-    <Flex className="login" align="center" justify="center" h="calc(100vh - 50px)">
-      <VStack spacing="8">
-        <Text fontSize="xl" fontWeight="bold">Login</Text>
-        <Flex align="center">
-          <Box className="left" display="flex" flexDirection="column" my={2}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={LoginSchema}
+      onSubmit={(values, actions) => {
+        console.log("Submitting with values:", values); // Log the values before submitting
+        login(
+          values.usernameOrEmail,
+          values.password,
+        ).then(response => {
+          console.log("Login success:", response); // Log successful response
+        })
+        .catch((err) => {
+          console.log("Login error:", err); // Log any error
+          actions.setSubmitting(false);
+          actions.setErrors({ submit: err.message });
+        });
+        actions.resetForm();
+      }}
+    >
+    {formik => (
+      <Box 
+        as="form"
+        onSubmit={formik.handleSubmit} 
+        maxW="xl" 
+        alignContent="center"
+        justifySelf="center"
+        mx="auto"
+        background="white"
+      >
+        <Grid
+          templateColumns={isNonMobile ? "repeat(4, 1fr)" : "repeat(1, 1fr)"}
+          gap="30px"
+          mx="auto"
+          maxW={{ base: "100%", md: 500, xl: 600 }}
+          m="20px"
+        >
+          <GridItem colSpan={isNonMobile ? 4 : 1} textAlign="center">
+              <Text fontSize="xl" fontWeight="bold" my="30px">Login</Text>
+          </GridItem>
+          <GridItem colSpan={isNonMobile ? 4 : 1}>
+            <TextField label="Username or Email" name="usernameOrEmail" placeholder="Username or Email" />
+          </GridItem>
+          <GridItem colSpan={isNonMobile ? 4 : 1}>
+            <TextField label="Password" type="password" name="password" placeholder="Password" />
+          </GridItem>
+          <GridItem colSpan={isNonMobile ? 4 : 1} justifyContent="center" display="flex">
             <Button
-              leftIcon={<FaGoogle />}
-              colorScheme="red"
-              onClick={google}
-              my={1}
+              colorScheme="green"
+              fontWeight="bold"
+              mt="4"
+              type="submit"
+              disabled={isLoading}
             >
-              Google
+              Login
             </Button>
-            <Button
-              leftIcon={<FaFacebook />}
-              colorScheme="facebook"
-              onClick={facebook}
-              my={1}
-            >
-              Facebook
-            </Button>
-            <Button
-              leftIcon={<FaGithub />}
-              colorScheme="gray"
-              onClick={github}
-              my={1}
-            >
-              Github
-            </Button>
-          </Box>
-          <Divider orientation="vertical" mx="4" />
-          <Box className="right">
-            <form onSubmit={handleLogin}>
-              <FormControl>
-                <FormLabel>Username or Email</FormLabel>
-                <Input 
-                  type="text" 
-                  value={usernameOrEmail} 
-                  onChange={(e) => setUsernameOrEmail(e.target.value)} 
-                  mb="4"
-                />
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>Password</FormLabel>
-                <Input 
-                  type="password" 
-                  value={password} 
-                  onChange={(e) => setPassword(e.target.value)} 
-                  mb="4"
-                />
-              </FormControl>
-
-              <Button 
-                disabled={isLoading} 
-                type="submit" 
-                colorScheme="green" 
-                fontWeight="bold"
-              >
-                Login
-              </Button>
-              {error && <Text>{error}</Text>}
-            </form>
-          </Box>
-        </Flex>
-        <Text display="flex">If you are new, please <Link href="/signup" mx="2px"> join us  </Link>.</Text>
-      </VStack>
-    </Flex>  
+          </GridItem>
+            {error && (
+              <GridItem colSpan={isNonMobile ? 4 : 1}>
+                <Text>{error}</Text>
+              </GridItem>
+            )}
+          <GridItem colSpan={isNonMobile ? 4 : 1} mb="30px">
+            <Text display="flex">If you are new, please <Link href="/signup" mx="5px"> join us</Link>.</Text>
+          </GridItem>
+        </Grid>
+      </Box>
+    )}
+    </Formik>
   )
 }

@@ -1,6 +1,8 @@
 import * as yup from 'yup';
+
 const phoneRegExp = /^\d{8,12}$/;
-export const UserSchema = yup.object().shape({
+
+export const SignupSchema = yup.object().shape({
     role: yup.string().required('Please select your role'),
     username: yup.string().required('Please enter your Username'),
     firstname: yup.string().required('Please enter your First Name'),
@@ -16,5 +18,18 @@ export const UserSchema = yup.object().shape({
     .required(),
     confirmPassword: yup.string()
     .oneOf([yup.ref('password'), null], 'Passwords must match')
-    .required('Please confirm your password'),
+    .required('Please confirm your password'),    
+})
+
+export const LoginSchema = yup.object().shape({
+    usernameOrEmail: yup.string()
+    .required('Please enter your Username or Email')
+    .test('username-or-email', 'Invalid username or email', (value) => {
+      // Define validation for username, must be at least 4 characters
+      const isUsernameValid = value.length >= 4;
+      // Use Yup's built-in email validation
+      const isEmailValid = yup.string().email().isValidSync(value);
+      // Value is valid if it's a valid username OR a valid email
+      return isUsernameValid || isEmailValid;
+    }),
 })

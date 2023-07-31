@@ -6,7 +6,6 @@ import {
   FormLabel,
   Input,
   InputGroup,
-  InputLeftAddon,
   InputRightElement,
   IconButton,
   Box,
@@ -28,7 +27,8 @@ const TextField = ({ label, type, ...props }) => {
         <InputGroup size="md">
           <Field as={Input} {...field} {...props} type={showPassword ? 'text' : 'password'} placeholder=" " />
           <InputRightElement>
-            <IconButton 
+            <IconButton
+              variant="none" 
               aria-label={showPassword ? 'Hide password' : 'Show password'} 
               icon={showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
               onClick={handlePasswordVisibility}

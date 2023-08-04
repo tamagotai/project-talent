@@ -14,21 +14,22 @@ import Talents from './pages/Talents';
 import Vacancies from './pages/Vacancies';
 import Users from './pages/Users';
 import Profile from './pages/Profile';
+import NotFound from './pages/NotFound';
 
 //components
 import Navbar from './components/Navbar';
 import CustomSidebar from './components/Sidebar';
 
 
-// const ROLES = {
-//   'User': XXX,
-//   'Admin': XXX,
-//   'Talent': XXX,
-//   'Organiser': xxx
-// }
+const ROLES = {
+  'Admin': 1,
+  'Talent': 2,
+  'Organiser': 3,
+}
 
 function App() {
   const { isLoading, isAuthenticated } = useAuth();
+
   return (
     <div className="app">
       {isAuthenticated && <CustomSidebar />}
@@ -40,17 +41,19 @@ function App() {
           <Route path="/login" element={<Login />}/>
           <Route path="/signup" element={<Signup />}/>
           <Route path="/unauthorised" element={<Unauthorised />}/>
-          {/* PRIVATE ROUTES */}
-          {/* <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}> */}
-          <Route element={<RequireAuth />}>
-            <Route path="/dashboard" element={isLoading ? null : isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}/>
-            <Route path="/search" element={isLoading ? null : isAuthenticated ? <Search /> : <Navigate to="/login" />}/>
-            <Route path="/chat" element={isLoading ? null : isAuthenticated ? <Chat /> : <Navigate to="/login" />}/>
-            <Route path="/talents" element={isLoading ? null : isAuthenticated ? <Talents /> : <Navigate to="/login" />}/>
-            <Route path="/vacancies" element={isLoading ? null : isAuthenticated ? <Vacancies /> : <Navigate to="/login" />}/>
-            <Route path="/users" element={isLoading ? null : isAuthenticated ? <Users /> : <Navigate to="/login" />}/>
-            <Route path="/profile" element={isLoading ? null : isAuthenticated ? <Profile /> : <Navigate to="/login" />}/>
+          
+          {/* PRIVATE ROUTES */}          
+          <Route element={isLoading ? null : isAuthenticated ? <RequireAuth allowedRoles={Object.values(ROLES)}/> : <Navigate to="/login" />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/talents" element={<Talents />} />
+            <Route path="/vacancies" element={<Vacancies />} />
+            <Route path="/users" element={<RequireAuth allowedRoles={[ROLES.Admin]}><Users /></RequireAuth>} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
+          {/* NOT FOUND ROUTE */}
+          <Route path="*" element={<NotFound />}/>
         </Routes>
       </main>
     </div>

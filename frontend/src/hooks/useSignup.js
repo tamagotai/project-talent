@@ -1,11 +1,13 @@
 import { useState } from "react"
 import useAuth from "./useAuth"
 import axios from "../api/axios"
+import { useNavigate } from "react-router-dom"
 
 export const useSignup = () => {
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(null)
     const { dispatch } = useAuth()
+    const navigate = useNavigate()
 
     const signup = async (role, username, firstname, lastname, email, mobile, landline, password) => {
       setIsLoading(true);
@@ -41,6 +43,7 @@ export const useSignup = () => {
       } finally {
         //update loading state
         setIsLoading(false);
+        navigate("/dashboard")
       }
     };
   return { signup, isLoading, error }

@@ -26,6 +26,7 @@ export default function Login() {
           values.password,
         ).then(response => {
           console.log("Login success:", response); // Log successful response
+          // navigate('/dashboard'); // Redirect to dashboard
         })
         .catch((err) => {
           console.log("Login error:", err); // Log any error

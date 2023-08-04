@@ -1,4 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
+import { SidebarStyles } from "./components/SidebarStyles";
 
 const activeLabelStyles = {
   transform: "scale(0.85) translateY(-24px)"
@@ -6,6 +7,7 @@ const activeLabelStyles = {
 
 export const theme = extendTheme({
   components: {
+    Sidebar: SidebarStyles,
     Form: {
       variants: {
         floating: {

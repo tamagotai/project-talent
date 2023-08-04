@@ -31,19 +31,26 @@ export const useSignup = () => {
           throw new Error('Something went wrong with the registration.');
         }
     
-        const json = await response.data;
+        const { user, token, message } = await response.data;
+        console.log('Signup success:', message);
     
-        //save the user to local storage
-        localStorage.setItem('user', JSON.stringify(json));
+        //save the user and token to local storage
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('token', token);
+
         //update the auth context
-        dispatch({ type: 'LOGIN', payload: json });
+        dispatch({ type: 'LOGIN', payload: user });
+        
+        // navigate to dashboard on successful signup
+        console.log('User sign up successfully. Redirecting to dashboard...');
+        navigate("/dashboard");
       } catch (err) {
         setIsLoading(false);
         setError(err.message);
       } finally {
         //update loading state
         setIsLoading(false);
-        navigate("/dashboard")
+        
       }
     };
   return { signup, isLoading, error }

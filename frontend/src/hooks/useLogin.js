@@ -27,11 +27,14 @@ export const useLogin = () => {
       
       const { user, token, message } = await response.data;
       console.log('Login success:', message);
+
       //save the user and token to local storage
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', token);
+
       //update the auth context
       dispatch({ type: 'LOGIN', payload: user });
+      
       // navigate to dashboard on successful login
       console.log('User logged in successfully. Redirecting to dashboard...');
       navigate("/dashboard");

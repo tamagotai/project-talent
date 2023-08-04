@@ -1,16 +1,16 @@
 import Header from "../components/Header";
 import { Box } from "@chakra-ui/react";
 
-const Chat = () => {
+const Rate = () => {
   return (
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="CHATROOM" subtitle="Talk with someone" />
+        <Header title="Rating" subtitle="Provide your feedback" />
       </Box>
 
     </Box>
   )
 }
 
-export default Chat
+export default Rate

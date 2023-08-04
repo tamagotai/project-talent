@@ -8,7 +8,7 @@ export const authReducer = (state, action) => {
       console.log("User logged in:", action.payload);
       return { ...state, user: action.payload, isAuthenticated: true };
     case 'LOGOUT':
-      return { user: null }
+      return { user: null, isAuthenticated: false }
     default:
       return state
   }
@@ -20,6 +20,8 @@ export const AuthContextProvider = ({ children }) => {
     })
 
     const logout = () => {
+      localStorage.removeItem('user'); // Clear the user from local storage
+      localStorage.removeItem('token'); // Clear the token from local storage
       dispatch({ type: 'LOGOUT' }); // Dispatch logout action
     }
 

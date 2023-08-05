@@ -72,7 +72,7 @@ const Sidebar = () => {
       </Drawer>
 
       {/* NonMOBILE SIZE MENU */}
-      <Box as="aside" sx={SidebarStyles.baseStyle}>
+      <Box as="aside" sx={SidebarStyles.baseStyle} display={{ base: "none", md: "block" }}>
         {/* WEBSITE LOGO */}
         <Center h="50px">
           <Text fontSize={20} fontWeight={700}>P<Icon as={MdOutlineHandshake} />T</Text>

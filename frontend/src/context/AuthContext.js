@@ -1,4 +1,5 @@
 import { createContext, useReducer, useEffect } from "react";
+// import { useLogout } from "../hooks/useLogout";
 
 const AuthContext = createContext({});
 
@@ -16,9 +17,11 @@ export const authReducer = (state, action) => {
 
 export const AuthContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, {
-      user: null
+      user: null,
+      isAuthenticated: false,
     })
 
+    // const logout = useLogout();
     const logout = () => {
       localStorage.removeItem('user'); // Clear the user from local storage
       localStorage.removeItem('token'); // Clear the token from local storage

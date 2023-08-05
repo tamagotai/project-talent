@@ -44,13 +44,13 @@ function App() {
           
         {/* PRIVATE ROUTES */}
           <Route element={isLoading ? null : isAuthenticated ? <RequireAuth allowedRoles={Object.values(ROLES)}/> : <Navigate to="/login" />}>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/search" element={<Search />} />
-                    <Route path="/rate" element={<Rate />} />
-                    <Route path="/talents" element={<Talents />} />
-                    <Route path="/vacancies" element={<Vacancies />} />
-                    <Route path="/users" element={<RequireAuth allowedRoles={[ROLES.Admin]}><Users /></RequireAuth>} />
-                    <Route path="/profile" element={<Profile />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/rate" element={<Rate />} />
+            <Route path="/talents" element={<Talents />} />
+            <Route path="/vacancies" element={<Vacancies />} />
+            <Route path="/users" element={<RequireAuth allowedRoles={[ROLES.Admin]}><Users /></RequireAuth>} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
         {/* NOT FOUND ROUTE */}
         <Route path="*" element={<NotFound />}/>

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Box, IconButton, Input, Text, Icon, Link } from "@chakra-ui/react";
 import { 
   MdOutlineHandshake, 
@@ -11,8 +12,14 @@ import {
  import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
-  // const theme = useTheme()
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/") // Navigate to homepage after logout
+  };
+
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
       
@@ -38,7 +45,7 @@ const Navbar = () => {
           <IconButton aria-label="Setting" icon={<MdSettings />} />
           <IconButton aria-label="Profile" icon={<MdPersonOutline />} />
           <IconButton
-            onClick={() => logout()} // Call the logout function when the logout button is clicked
+            onClick={handleLogout} // Call the handlelogout function when the logout button is clicked
             aria-label="Logout"
             icon={<MdOutlineLogout />}
           />

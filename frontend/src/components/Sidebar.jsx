@@ -5,14 +5,15 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { 
-  MdOutlineHandshake, MdOutlineDashboard, 
-  MdOutlinePerson, MdOutlineWorkOutline, MdOutlineStarRate 
+  MdOutlineDashboard, MdOutlinePerson, 
+  MdOutlineWorkOutline, MdOutlineStarRate 
 } from "react-icons/md"
 import { BsPersonWorkspace } from "react-icons/bs";
 import { IoAppsOutline } from "react-icons/io5";
 import { LuUsers } from "react-icons/lu";
 import { Link as RouterLink } from "react-router-dom";
 import { SidebarStyles } from "../theme/components/SidebarStyles";
+import { Logo } from "./Logo";
 
 const Sidebar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -43,25 +44,25 @@ const Sidebar = () => {
                     Maketplace
                   </Text>
                   <Box pl={5}>
-                    <ChakraLink as={RouterLink} to="/talents" sx={SidebarStyles.variants.menuLink}>
+                    <ChakraLink as={RouterLink} to="/dashboard/talents" sx={SidebarStyles.variants.menuLink}>
                       <Icon as={BsPersonWorkspace} sx={SidebarStyles.variants.menuIcon} />
                       Talents
                     </ChakraLink>
-                    <ChakraLink as={RouterLink} to="/vacancies" sx={SidebarStyles.variants.menuLink}>
+                    <ChakraLink as={RouterLink} to="/dashboard/vacancies" sx={SidebarStyles.variants.menuLink}>
                       <Icon as={MdOutlineWorkOutline} sx={SidebarStyles.variants.menuIcon} />
                       Vacancies
                     </ChakraLink>
                   </Box>
                 </Box>
-                <ChakraLink as={RouterLink} to="/users" sx={SidebarStyles.variants.menuLink}>
+                <ChakraLink as={RouterLink} to="/dashboard/users" sx={SidebarStyles.variants.menuLink}>
                     <Icon as={LuUsers} sx={SidebarStyles.variants.menuIcon} />
                     Users
                 </ChakraLink>
-                <ChakraLink as={RouterLink} to="/rate" sx={SidebarStyles.variants.menuLink}>
+                <ChakraLink as={RouterLink} to="/dashboard/rate" sx={SidebarStyles.variants.menuLink}>
                     <Icon as={MdOutlineStarRate} sx={SidebarStyles.variants.menuIcon} />
                     Rating
                 </ChakraLink>
-                <ChakraLink as={RouterLink} to="/profile" sx={SidebarStyles.variants.menuLink}>
+                <ChakraLink as={RouterLink} to="/dashboard/profile" sx={SidebarStyles.variants.menuLink}>
                     <Icon as={MdOutlinePerson} sx={SidebarStyles.variants.menuIcon} />
                     Profile
                 </ChakraLink>
@@ -74,9 +75,7 @@ const Sidebar = () => {
       {/* NonMOBILE SIZE MENU */}
       <Box as="aside" sx={SidebarStyles.baseStyle} display={{ base: "none", md: "block" }}>
         {/* WEBSITE LOGO */}
-        <Center h="50px">
-          <Text fontSize={20} fontWeight={700}>P<Icon as={MdOutlineHandshake} />T</Text>
-        </Center>
+        <Center h="50px"><Logo /></Center>
         <Box as="nav">
           <ChakraLink as={RouterLink} to="/dashboard" sx={SidebarStyles.variants.menuLink}>
               <Icon as={MdOutlineDashboard} sx={SidebarStyles.variants.menuIcon} />
@@ -88,25 +87,25 @@ const Sidebar = () => {
               Maketplace
             </Text>
             <Box pl={5}>
-              <ChakraLink as={RouterLink} to="/talents" sx={SidebarStyles.variants.menuLink}>
+              <ChakraLink as={RouterLink} to="/dashboard/talents" sx={SidebarStyles.variants.menuLink}>
                 <Icon as={BsPersonWorkspace} sx={SidebarStyles.variants.menuIcon} />
                 Talents
               </ChakraLink>
-              <ChakraLink as={RouterLink} to="/vacancies" sx={SidebarStyles.variants.menuLink}>
+              <ChakraLink as={RouterLink} to="/dashboard/vacancies" sx={SidebarStyles.variants.menuLink}>
                 <Icon as={MdOutlineWorkOutline} sx={SidebarStyles.variants.menuIcon} />
                 Vacancies
               </ChakraLink>
             </Box>
           </Box>
-          <ChakraLink as={RouterLink} to="/users" sx={SidebarStyles.variants.menuLink}>
+          <ChakraLink as={RouterLink} to="/dashboard/users" sx={SidebarStyles.variants.menuLink}>
               <Icon as={LuUsers} sx={SidebarStyles.variants.menuIcon} />
               Users
           </ChakraLink>
-          <ChakraLink as={RouterLink} to="/rate" sx={SidebarStyles.variants.menuLink}>
+          <ChakraLink as={RouterLink} to="/dashboard/rate" sx={SidebarStyles.variants.menuLink}>
               <Icon as={MdOutlineStarRate} sx={SidebarStyles.variants.menuIcon} />
               Rating
           </ChakraLink>
-          <ChakraLink as={RouterLink} to="/profile" sx={SidebarStyles.variants.menuLink}>
+          <ChakraLink as={RouterLink} to="/dashboard/profile" sx={SidebarStyles.variants.menuLink}>
               <Icon as={MdOutlinePerson} sx={SidebarStyles.variants.menuIcon} />
               Profile
           </ChakraLink>

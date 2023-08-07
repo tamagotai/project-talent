@@ -3,6 +3,7 @@ export const SidebarStyles = {
       width: "200px",
       background: "#F4F4EB",
       color: "#333",
+      height: "100vh"
     },
     variants: {
       menuLink: {

@@ -1,5 +1,7 @@
-import RequireAuth from './utils/RequireAuth';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import RequireAuth from './utils/RoleAuthRoute';
+import RoleAuthRoute from './utils/RoleAuthRoute';
+import AuthRoute from './utils/AuthRoute';
+import { Routes, Route } from 'react-router-dom';
 import useAuth from './hooks/useAuth';
 
 //pages
@@ -8,7 +10,6 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Unauthorised from './pages/Unauthorised';
 import Dashboard from './pages/Dashboard';
-import Search from './pages/Profile';
 import Rate from './pages/Rate';
 import Talents from './pages/Talents';
 import Vacancies from './pages/Vacancies';
@@ -17,9 +18,11 @@ import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 
 //components
-import Navbar from './components/Navbar';
-import Sidebar from './components/Sidebar';
+import Loading from './components/Loading';
 
+//layouts
+import { DashboardLayout } from './layouts/DashboardLayout';
+import { PublicLayout } from './layouts/PublicLayout';
 
 const ROLES = {
   'Admin': 1,
@@ -28,34 +31,36 @@ const ROLES = {
 }
 
 function App() {
-  const { isLoading, isAuthenticated } = useAuth();
+  const { isLoading } = useAuth();
 
   return (
-    <div className="app">
-      {isAuthenticated && <Sidebar />}
-      <main className="content">
-      <Navbar />
-      <Routes>
-        {/* PUBLIC ROUTES  */}
-        <Route path="/" element={<Home />}/>
-        <Route path="/login" element={<Login />}/>
-        <Route path="/signup" element={<Signup />}/>
-        <Route path="/unauthorised" element={<Unauthorised />}/>
-          
-        {/* PRIVATE ROUTES */}
-          <Route element={isLoading ? null : isAuthenticated ? <RequireAuth allowedRoles={Object.values(ROLES)}/> : <Navigate to="/login" />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/rate" element={<Rate />} />
-            <Route path="/talents" element={<Talents />} />
-            <Route path="/vacancies" element={<Vacancies />} />
-            <Route path="/users" element={<RequireAuth allowedRoles={[ROLES.Admin]}><Users /></RequireAuth>} />
-            <Route path="/profile" element={<Profile />} />
+    <div className="app">      
+      <div className="content">
+        <Routes>
+          {/* PUBLIC ROUTES  */}
+          <Route path="/" element={<PublicLayout />}>
+            <Route path="/" element={<Home />}/>
+            <Route path="/login" element={<Login />}/>
+            <Route path="/signup" element={<Signup />}/>
+            <Route path="/unauthorised" element={<Unauthorised />}/>
           </Route>
-        {/* NOT FOUND ROUTE */}
-        <Route path="*" element={<NotFound />}/>
-      </Routes>
-      </main>
+          {/* PRIVATE ROUTES */}
+          
+          <Route element={isLoading ? <Loading /> : <AuthRoute />}>
+            <Route path="/dashboard" element={<DashboardLayout />}>
+              <Route path="/dashboard" element={<Dashboard />}/>
+              <Route path="/dashboard/rate" element={<Rate />} />
+              <Route path="/dashboard/talents" element={<Talents />} />
+              <Route path="/dashboard/vacancies" element={<Vacancies />} />
+              <Route path="/dashboard/users" element={<RoleAuthRoute allowedRoles={[ROLES.Admin]}><Users /></RoleAuthRoute>} />
+              <Route path="/dashboard/profile" element={<Profile />} />
+            </Route>
+          </Route>
+          
+          {/* NOT FOUND ROUTE */}
+          <Route path="*" element={<NotFound />}/>
+        </Routes> 
+      </div> 
     </div>
   );
 }

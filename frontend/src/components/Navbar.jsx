@@ -1,32 +1,40 @@
-import { useNavigate } from "react-router-dom";
-import { Box, IconButton, Input, Text, Icon, Link } from "@chakra-ui/react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { 
-  MdOutlineHandshake, 
+  Box, IconButton, Input, 
+  Flex, Avatar, AvatarBadge,
+  Menu, MenuButton, MenuList, MenuItem, MenuDivider 
+} from "@chakra-ui/react";
+import { 
   MdSettings,
   MdOutlineSearch,
-  MdOutlineNotifications,
+  MdOutlineDashboard,
   MdPersonOutline,
   MdOutlineLogout,
   MdOutlineLogin
  } from "react-icons/md";
+ import { Logo } from "./Logo";
  import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation(); //get current location
 
   const handleLogout = () => {
     logout();
     navigate("/") // Navigate to homepage after logout
   };
 
+  const isPrivateRoute = location.pathname.startsWith('/dashboard');
+
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
       
-      {user? ( //show search bar, notification, setting, profile and logout buttons when login status
+      {user? ( 
+        //login status: show avatar, dashbaord and logout icons
       <>
       {/* SEARCH BAR */}
-        <Box
+        {/* <Box
           display="flex"
           borderRadius="3px"
         >
@@ -37,37 +45,57 @@ const Navbar = () => {
             aria-label="Search"
             icon={<MdOutlineSearch />}
           />
-        </Box>
+        </Box> */}
+        
+        {/* Logo shows in public routes */}
+        {!isPrivateRoute && <Flex justifyContent="flex-start" w="full" align="center">
+          <Logo />
+        </Flex>}
 
         {/* LEFT ICONS */}
-        <Box display="flex">
-          <IconButton aria-label="Notification" icon={<MdOutlineNotifications />} />
-          <IconButton aria-label="Setting" icon={<MdSettings />} />
-          <IconButton aria-label="Profile" icon={<MdPersonOutline />} />
-          <IconButton
-            onClick={handleLogout} // Call the handlelogout function when the logout button is clicked
-            aria-label="Logout"
-            icon={<MdOutlineLogout />}
-          />
-        </Box>
+        <Flex justifyContent="flex-end" w="full" align="center">
+          
+          {!isPrivateRoute && <Link to="/dashboard">
+            <IconButton         
+              aria-label="Dashboard" 
+              icon={<MdOutlineDashboard />} 
+              fontSize="24px" 
+              variant="unstyled"
+            />
+          </Link>}
+
+          <Menu>
+            <MenuButton>
+              <Avatar size="sm" mr="10px" bg="green.200" name={`${user.firstname} ${user.lastname}`}>
+                <AvatarBadge boxSize="1.25em" bg="green.800" />
+              </Avatar>              
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => { /* Handle Profile Navigation */ }}>
+                Profile
+              </MenuItem>
+              <MenuItem onClick={() => { /* Handle Settings Navigation */ }}>
+                Settings
+              </MenuItem>
+              <MenuItem onClick={() => { /* Handle Notifications Navigation */ }}>
+                Notifications
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem onClick={handleLogout}>
+                Logout
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </Flex>
       </>
   ) : (
     // When user is not logged in
     <>
-    {/* WEBSITE LOGO */}
-    <Box h="50px">
-      <Text fontSize={20} fontWeight={700}>P<Icon as={MdOutlineHandshake} />T</Text>
-    </Box>
-    <Box justifyContent="center" display="flex" gap={2}>
-      <Link href="/login" mt={2}>Login</Link>
-      <Link href="/signup" mt={2}>Signup</Link>
-      <IconButton
-        as="a"
-        href="/login"
-        aria-label="Login"
-        icon={<MdOutlineLogin />}
-      />
-    </Box>
+      {/* WEBSITE LOGO */}
+      <Logo />
+      <Box justifyContent="center" display="flex" gap={10}>
+        <Link to="/login" m="20px">Login</Link>      
+      </Box>
     </>
   )}
 </Box>

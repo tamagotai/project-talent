@@ -26,6 +26,6 @@ router.post('/login', userController.login)
 router.post('/logout', userController.logout)
 
 // Admin user only
-//router.get('/adminonly', verifyToken, adminOnly, userController.adminonly);
+//router.get('/adminonly', verifyToken, adminToken, userController.adminonly);
 
 export default router;

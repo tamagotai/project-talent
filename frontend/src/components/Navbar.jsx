@@ -5,12 +5,7 @@ import {
   Menu, MenuButton, MenuList, MenuItem, MenuDivider 
 } from "@chakra-ui/react";
 import { 
-  MdSettings,
-  MdOutlineSearch,
   MdOutlineDashboard,
-  MdPersonOutline,
-  MdOutlineLogout,
-  MdOutlineLogin
  } from "react-icons/md";
  import { Logo } from "./Logo";
  import useAuth from "../hooks/useAuth";

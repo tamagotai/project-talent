@@ -1,4 +1,5 @@
 import { createContext, useReducer, useEffect } from "react";
+import axios from "../api/axios";
 
 const AuthContext = createContext({});
 
@@ -23,12 +24,21 @@ export const AuthContextProvider = ({ children }) => {
     isLoading: true
   })
 
-  // const logout = useLogout();
-  const logout = () => {
-    localStorage.removeItem('user'); // Clear the user from local storage
-    localStorage.removeItem('token'); // Clear the token from local storage
-    dispatch({ type: 'LOGOUT' }); // Dispatch logout action
-  }
+  const logout = async () => {
+    try {
+        // Send POST request to backend to log out
+        const response = await axios.post('/users/logout');
+        
+        if (response.status === 200) {
+            console.log(response.data.message); // Log the success message
+            localStorage.removeItem('user');  // Clear the user from local storage
+            localStorage.removeItem('token'); // Clear the token from local storage
+            dispatch({ type: 'LOGOUT' });    // Dispatch logout action
+        }
+    } catch (error) {
+        console.error("Error logging out:", error); // Handle any errors here
+    }
+  };  
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));

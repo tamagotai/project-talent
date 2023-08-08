@@ -1,7 +1,9 @@
 import { 
   Box, Center, Icon, Text, Link as ChakraLink, 
   useDisclosure, IconButton, Drawer, DrawerOverlay,
-  DrawerContent, DrawerHeader, DrawerBody, DrawerCloseButton 
+  DrawerContent, DrawerHeader, DrawerBody, DrawerCloseButton,
+  Accordion, AccordionButton, AccordionIcon, AccordionPanel,
+  AccordionItem 
 } from "@chakra-ui/react";
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { 
@@ -38,21 +40,28 @@ const Sidebar = () => {
                     <Icon as={MdOutlineDashboard} sx={SidebarStyles.variants.menuIcon} />
                     Dashboard
                 </ChakraLink>
-                <Box>
-                  <Text sx={SidebarStyles.variants.menuLink}>
-                    <Icon as={IoAppsOutline} sx={SidebarStyles.variants.menuIcon} />
-                    Maketplace
-                  </Text>
-                  <Box pl={5}>
-                    <ChakraLink as={RouterLink} to="/dashboard/talents" sx={SidebarStyles.variants.menuLink}>
-                      <Icon as={BsPersonWorkspace} sx={SidebarStyles.variants.menuIcon} />
-                      Talents
-                    </ChakraLink>
-                    <ChakraLink as={RouterLink} to="/dashboard/vacancies" sx={SidebarStyles.variants.menuLink}>
-                      <Icon as={MdOutlineWorkOutline} sx={SidebarStyles.variants.menuIcon} />
-                      Vacancies
-                    </ChakraLink>
-                  </Box>
+                <Box as={Accordion} defaultIndex={[1]} allowMultiple>
+                  <AccordionItem>
+                    <AccordionButton>
+                      <Text sx={SidebarStyles.variants.menuLink}>
+                        <Icon as={IoAppsOutline} sx={SidebarStyles.variants.menuIcon} />
+                        Maketplace
+                      </Text>
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <AccordionPanel>
+                      <Box pl={5}>
+                        <ChakraLink as={RouterLink} to="/dashboard/talents" sx={SidebarStyles.variants.menuLink}>
+                          <Icon as={BsPersonWorkspace} sx={SidebarStyles.variants.menuIcon} />
+                          Talents
+                        </ChakraLink>
+                        <ChakraLink as={RouterLink} to="/dashboard/vacancies" sx={SidebarStyles.variants.menuLink}>
+                          <Icon as={MdOutlineWorkOutline} sx={SidebarStyles.variants.menuIcon} />
+                          Vacancies
+                        </ChakraLink>                  
+                      </Box>
+                    </AccordionPanel>
+                  </AccordionItem>
                 </Box>
                 <ChakraLink as={RouterLink} to="/dashboard/users" sx={SidebarStyles.variants.menuLink}>
                     <Icon as={LuUsers} sx={SidebarStyles.variants.menuIcon} />
@@ -81,21 +90,28 @@ const Sidebar = () => {
               <Icon as={MdOutlineDashboard} sx={SidebarStyles.variants.menuIcon} />
               Dashboard
           </ChakraLink>
-          <Box>
-            <Text sx={SidebarStyles.variants.menuLink}>
-              <Icon as={IoAppsOutline} sx={SidebarStyles.variants.menuIcon} />
-              Maketplace
-            </Text>
-            <Box pl={5}>
-              <ChakraLink as={RouterLink} to="/dashboard/talents" sx={SidebarStyles.variants.menuLink}>
-                <Icon as={BsPersonWorkspace} sx={SidebarStyles.variants.menuIcon} />
-                Talents
-              </ChakraLink>
-              <ChakraLink as={RouterLink} to="/dashboard/vacancies" sx={SidebarStyles.variants.menuLink}>
-                <Icon as={MdOutlineWorkOutline} sx={SidebarStyles.variants.menuIcon} />
-                Vacancies
-              </ChakraLink>
-            </Box>
+          <Box as={Accordion} defaultIndex={[1]} allowMultiple>
+            <AccordionItem>
+              <AccordionButton>
+                <Text sx={SidebarStyles.variants.menuLink}>
+                  <Icon as={IoAppsOutline} sx={SidebarStyles.variants.menuIcon} />
+                  Maketplace
+                </Text>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel>
+                <Box pl={5}>
+                  <ChakraLink as={RouterLink} to="/dashboard/talents" sx={SidebarStyles.variants.menuLink}>
+                    <Icon as={BsPersonWorkspace} sx={SidebarStyles.variants.menuIcon} />
+                    Talents
+                  </ChakraLink>
+                  <ChakraLink as={RouterLink} to="/dashboard/vacancies" sx={SidebarStyles.variants.menuLink}>
+                    <Icon as={MdOutlineWorkOutline} sx={SidebarStyles.variants.menuIcon} />
+                    Vacancies
+                  </ChakraLink>                  
+                </Box>
+              </AccordionPanel>
+            </AccordionItem>
           </Box>
           <ChakraLink as={RouterLink} to="/dashboard/users" sx={SidebarStyles.variants.menuLink}>
               <Icon as={LuUsers} sx={SidebarStyles.variants.menuIcon} />

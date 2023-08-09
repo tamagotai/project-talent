@@ -15,6 +15,8 @@ import Talents from './pages/Talents';
 import Vacancies from './pages/Vacancies';
 import Users from './pages/Users';
 import Profile from './pages/Profile';
+import Settings from './pages/Settings';
+import Notification from './pages/Notfication';
 import NotFound from './pages/NotFound';
 
 //components
@@ -23,6 +25,7 @@ import Loading from './components/Loading';
 //layouts
 import { DashboardLayout } from './layouts/DashboardLayout';
 import { PublicLayout } from './layouts/PublicLayout';
+
 
 const ROLES = {
   'Admin': 1,
@@ -54,6 +57,9 @@ function App() {
               <Route path="/dashboard/vacancies" element={<Vacancies />} />
               <Route path="/dashboard/users" element={<RoleAuthRoute allowedRoles={[ROLES.Admin]}><Users /></RoleAuthRoute>} />
               <Route path="/dashboard/profile" element={<Profile />} />
+              <Route path="/dashboard/settings" element={<Settings />} />
+              <Route path="/dashboard/notifications" element={<Notification />} />
+              <Route path="/dashboard/unauthorised" element={<Unauthorised />}/>
             </Route>
           </Route>
           

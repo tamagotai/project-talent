@@ -7,5 +7,5 @@ export default function RoleAuthRoute({ allowedRoles, children }) {
   
   return allowedRoles && user && allowedRoles.includes(user.role_id)
         ? children || <Outlet />
-        : <Navigate to="/unauthorised" state={{ from: location }} replace />
+        : <Navigate to="/dashboard/unauthorised" state={{ from: location }} replace />
 }

@@ -11,7 +11,9 @@ import {
   const RadioInput = ({ label, options, ...props }) => {
     const [field, meta, helpers] = useField(props);
     const { setValue } = helpers;
-  
+    console.log('Field', field)
+    console.log('Meta', meta)
+    console.log('Helpers', helpers)
     return (
       <FormControl isInvalid={meta.error && meta.touched}>
         <FormLabel>{label}</FormLabel>

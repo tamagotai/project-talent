@@ -14,6 +14,7 @@ export const useSignup = () => {
       setError(null);
       // convert role to a number
       const role_id = Number(role);
+  
       console.log("Sending signup request with:", { role_id, username, firstname, lastname, email, mobile, landline, password }); // Log the request data
       try {
         const response = await axios.post('/users/register', {

@@ -7,7 +7,7 @@ import { IoAppsOutline } from "react-icons/io5";
 import { LuUsers, LuUser } from "react-icons/lu";
 import { AiOutlineSetting } from "react-icons/ai";
 import { MenuItem, SubMenu } from "react-pro-sidebar";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export const sidebarItems = [
     {
@@ -65,21 +65,21 @@ export const SidebarItem = (item) => {
 
     if (item.subMenu) {
         return (
-            <SubMenu label={item.label} title={item.title} icon={item.icon}>
-                {item.subMenu.map(subItem => <SidebarItem {...subItem} />)}
+            <SubMenu key={item.title} label={item.label} title={item.title} icon={item.icon}>
+                {item.subMenu.map(subItem => <SidebarItem key={subItem.title} {...subItem} />)}
             </SubMenu>
         );
     }
 
-    return (
-        <NavLink to={item.to}>
-            <MenuItem 
-                title={item.title} 
-                icon={item.icon}
-                active={isActive}
-            >
-                {item.title}
-            </MenuItem>
-        </NavLink>
+    return (        
+        <MenuItem
+            key={item.title}
+            title={item.title} 
+            icon={item.icon}
+            active={isActive}
+            component={<Link to={item.to} />}
+        >
+            {item.title}
+        </MenuItem>
     );
 };

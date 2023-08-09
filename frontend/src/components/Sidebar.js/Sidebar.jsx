@@ -51,7 +51,7 @@ const CustomSidebar = () => {
                     }
                     return true;  // Include other menu items
                   })
-                  .map(item => <SidebarItem {...item} />)}
+                  .map(item => <SidebarItem key={item.title} {...item} />)}
                 </Menu>
               </Sidebar>
             </DrawerBody>
@@ -80,7 +80,7 @@ const CustomSidebar = () => {
                 }
                 return true;  // Include other menu items
               })
-              .map(item => <SidebarItem {...item} />)}
+              .map(item => <SidebarItem key={item.title} {...item} />)}
           </Menu>
         </Sidebar>
       </Box>

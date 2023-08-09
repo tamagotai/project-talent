@@ -6,7 +6,7 @@ const Vacancies = () => {
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="VACANCIES" subtitle="Find your role" />
+        <Header title="VACANCIES" subtitle="Find your position" />
       </Box>
 
     </Box>

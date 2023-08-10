@@ -4,14 +4,14 @@ import validator from 'validator';
 
 export default {
   getUsers: async () => {
-    const [records] = await pool.query("SELECT * FROM users");
+    const [records] = await pool.query("SELECT * FROM user");
     return records;
   },
 
   getUserById: async (id) => {
     const [records] = await pool.query(`
       SELECT *
-      FROM users
+      FROM user
       WHERE id = ?
     `, [id]);
     return records[0] || null;
@@ -19,7 +19,7 @@ export default {
 
   deleteUser: async (id) => {
     const [{affectedRows}] = await pool.query(`
-      DELETE FROM users
+      DELETE FROM user
       WHERE id = ?
     `, [id]);
     return affectedRows;
@@ -33,7 +33,7 @@ export default {
     const hashedPassword = password ? bcrypt.hashSync(password, 10) : null;
 
     const [{affectedRows}] = await pool.query(`
-      UPDATE users
+      UPDATE user
       SET username = ?, firstname = ?, lastname = ?, email = ?, password = ?, mobile = ?, landline = ?, role_id = ?
       WHERE id = ?
     `, [username, firstname, lastname, email, hashedPassword || password, mobile, landline, role_id, id]);
@@ -55,7 +55,7 @@ export default {
     // Check for existing username or email
     const [users] = await pool.query(`
       SELECT * 
-      FROM users 
+      FROM user 
       WHERE email = ? OR username = ?
     `, [email, username]);
     
@@ -65,7 +65,7 @@ export default {
 
     const hashedPassword = bcrypt.hashSync(password, 10);
     const [result] = await pool.query(`
-      INSERT INTO users (username, firstname, lastname, email, password, mobile, landline, role_id)
+      INSERT INTO user (username, firstname, lastname, email, password, mobile, landline, role_id)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `, [username, firstname, lastname, email, hashedPassword, mobile, landline, role_id]);
     return result.insertId
@@ -80,7 +80,7 @@ export default {
   
     const [[user]] = await pool.query(`
       SELECT * 
-      FROM users 
+      FROM user 
       WHERE ${field} = ?
     `, [usernameOrEmail]);
 

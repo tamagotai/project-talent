@@ -10,7 +10,7 @@ export default {
       
         const [user] = await pool.query(`
           SELECT * 
-          FROM users 
+          FROM user 
           WHERE ${field} = ?
         `, [usernameOrEmail]);
     
@@ -41,7 +41,7 @@ export default {
         // Check for existing username or email
         const [users] = await pool.query(`
             SELECT * 
-            FROM users 
+            FROM user 
             WHERE email = ? OR username = ?
             `, [email, username]);
     
@@ -51,7 +51,7 @@ export default {
     
         const hashedPassword = bcrypt.hashSync(password, 10);
         const [result] = await pool.query(`
-            INSERT INTO users (username, firstname, lastname, email, password, mobile, landline, role_id)
+            INSERT INTO user (username, firstname, lastname, email, password, mobile, landline, role_id)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             `, [username, firstname, lastname, email, hashedPassword, mobile, landline, role_id]);
         return result.insertId;

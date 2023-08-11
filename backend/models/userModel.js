@@ -21,6 +21,11 @@ export default {
     return records[0] || null;
   },
 
+  getUsersByRole: async (roleId) => {
+    const[records] = await pool.query("SELECT * FROM user WHERE role_id = ?", [roleId]);
+    return records;
+  },
+
   deleteUser: async (id) => {
     const [{affectedRows}] = await pool.query(`
       DELETE FROM user

@@ -1,33 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import useProject from "../hooks/useProject";
 import Header from "../components/Header";
 import { Box, SimpleGrid, Input} from "@chakra-ui/react";
-import axios from "../api/axios";
-import { MdOutlineSearch } from "react-icons/md";
-import UserCard from "../components/UserCard";
+import ProjectCard from "../components/ProjectCard";
+import search from "../utils/SearchUtility";
 
 const Projects = () => {
   const [query, setQuery] = useState("");
-  const [data, setData] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     const res = await axios.get('/users');
-  //     setData(res.data);
-  //   };
-  //   if (query.length ===0 || query.length > 2) fetchUsers()
-  // },[query]);
-
-  // const keys = ["firstname", "lastname", "email"]
-  // const search = (data) => {
-  //   return data.filter((item) => 
-  //     keys.some((key) => item[key].toLowerCase90.includes(query))
-  // )};
-
+  const data = useProject(query);
+  const projectKeys = ["project_name", "description", "project_organiser", "start_date", "end_date"];
+  const filteredProjects = search(data, query, projectKeys);
+  
   return (
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="Project" subtitle="View your Project" />
+        <Header title="Project" subtitle="View all projects" />
       </Box>
 
       {/* BREADCRUMB */}
@@ -42,17 +30,9 @@ const Projects = () => {
           borderRadius="3px"
         >
           <Input 
-            sx={{ ml: 2, flex: 1 }} 
             placeholder="Search..." 
             onChange={e => setQuery(e.target.value)}
           />
-          {/* <IconButton 
-            type="button" 
-            sx={{ p: 1 }}
-            aria-label="Search"
-            icon={<MdOutlineSearch />}
-            variant="unstyled"            
-          /> */}
         </Box>
       </Box>
 
@@ -60,8 +40,9 @@ const Projects = () => {
       <SimpleGrid 
         spacing={4} 
         templateColumns='repeat(auto-fill, minmax(200px, 1fr))'
+        mt={5}
       >
-        {<UserCard data={data} />}
+        {filteredProjects.map(project => <ProjectCard key={project.id} project={project} />)}
       </SimpleGrid>
 
     </Box>

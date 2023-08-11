@@ -1,26 +1,26 @@
 import { useState, useEffect } from "react";
 import axios from "../api/axios";
 
-const useUser = (query) => {
+const useTalent = (query) => {
     const [data, setData] = useState([]);
     const token = localStorage.getItem('token');
 
     useEffect(() => {
-        const fetchUsers = async () => {
+        const fetchTalents = async () => {
           try {
-            const res = await axios.get('/users', {
+            const res = await axios.get('/users/talents', {
               headers: {'Authorization': `Bearer ${token}`}
             });
             setData(res.data);
           } catch (error) {
-            console.error("Error fetching users:", error);
+            console.error("Error fetching talents:", error);
           }
         };
         
-        if (query.length === 0 || query.length > 2) fetchUsers();
+        if (query.length === 0 || query.length > 2) fetchTalents();
     }, [query]);
 
     return data;
 }
 
-export default useUser;
+export default useTalent;

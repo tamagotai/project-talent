@@ -6,6 +6,7 @@ import cors from 'cors';
 import errorController from './controllers/errorController.js';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import projectRoutes from './routes/projectRoutes.js';
 
 // CONFIGURATION
 const app = express();
@@ -27,6 +28,7 @@ app.use(cors({
 //routes
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/projects', projectRoutes);
 
 //error handler
 app.use(errorController.get404);

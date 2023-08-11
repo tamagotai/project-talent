@@ -7,6 +7,9 @@ const router = express.Router();
 //Get all users
 router.get('/', verifyToken, userController.getUsers)
 
+//Get all talents
+router.get('/talents', verifyToken, userController.getTalents)
+
 //GET a single page
 router.get('/:id', verifyToken, userController.getUser)
 

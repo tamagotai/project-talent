@@ -15,6 +15,11 @@ export default {
       res.json(user)
   },
 
+  getTalents: async (req, res) => {
+    const talents = await userModel.getUsersByRole(2); //2 is for talents
+    res.json(talents);
+  },
+
   deleteUser: async (req, res) => {
     const affectedRows = await userModel.deleteUser(req.params.id);
     if (affectedRows == 0)

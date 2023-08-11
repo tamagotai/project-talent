@@ -4,7 +4,11 @@ import validator from 'validator';
 
 export default {
   getUsers: async () => {
-    const [records] = await pool.query("SELECT * FROM user");
+    const [records] = await pool.query(`
+      SELECT user.*, role.role_name 
+      FROM user 
+      LEFT JOIN role ON user.role_id = role.id
+    `);
     return records;
   },
 

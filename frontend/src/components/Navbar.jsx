@@ -27,21 +27,7 @@ const Navbar = () => {
       
       {user? ( 
         //login status: show avatar, dashbaord and logout icons
-      <>
-      {/* SEARCH BAR */}
-        {/* <Box
-          display="flex"
-          borderRadius="3px"
-        >
-          <Input sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-          <IconButton 
-            type="button" 
-            sx={{ p: 1 }}
-            aria-label="Search"
-            icon={<MdOutlineSearch />}
-          />
-        </Box> */}
-        
+      <>             
         {/* Logo shows in public routes */}
         {!isPrivateRoute && <Flex justifyContent="flex-start" w="full" align="center">
           <Logo />

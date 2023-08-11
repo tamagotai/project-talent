@@ -5,7 +5,7 @@ MdOutlineWorkOutline, MdOutlineStarRate
 import { BsPersonWorkspace } from "react-icons/bs";
 import { IoAppsOutline } from "react-icons/io5";
 import { LuUsers, LuUser } from "react-icons/lu";
-import { AiOutlineSetting } from "react-icons/ai";
+import { AiOutlineSetting, AiOutlineProject } from "react-icons/ai";
 import { MenuItem, SubMenu } from "react-pro-sidebar";
 import { Link, useLocation } from "react-router-dom";
 
@@ -14,6 +14,11 @@ export const sidebarItems = [
         title: "Dashboard",
         icon: <MdOutlineDashboard />,
         to: "/dashboard"
+    },
+    {
+        title: "Projects",
+        icon: <AiOutlineProject />,
+        to: "/dashboard/projects"
     },
     {
         label: "Maketplace",

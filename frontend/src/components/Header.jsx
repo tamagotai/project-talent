@@ -18,7 +18,7 @@ const Header = ({ title, subtitle }) => {
             {subtitle}
         </Text>
 
-
+        
     </Box>
   )
 }

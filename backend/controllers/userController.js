@@ -40,7 +40,7 @@ export default {
   createUser: async (req, res) => {
     const id = await userModel.createUser(req.body);
     const user = await userModel.getUserById(id);
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '10d' });
     res.status(201).json({
       message: 'Record has been created successfully.',
       user: user,
@@ -54,7 +54,7 @@ export default {
     
     try {
       const user = await userModel.login(usernameOrEmail, password);
-      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '10d' });
       res.status(200).json({
         message: 'Login successful.',
         user: user,

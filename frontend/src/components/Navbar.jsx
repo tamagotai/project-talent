@@ -1,6 +1,6 @@
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { 
-  Box, IconButton, Input, 
+  Box, IconButton, Button, 
   Flex, Avatar, AvatarBadge,
   Menu, MenuButton, MenuList, MenuItem, MenuDivider 
 } from "@chakra-ui/react";
@@ -75,7 +75,7 @@ const Navbar = () => {
       {/* WEBSITE LOGO */}
       <Logo />
       <Box justifyContent="center" display="flex" gap={10}>
-        <Link to="/login" m="20px">Login</Link>      
+        <Button as={Link} to="/login" m={3}>Login</Button>      
       </Box>
     </>
   )}

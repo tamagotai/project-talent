@@ -1,15 +1,24 @@
-import { useState } from "react";
-import useUser from "../hooks/useUser";
-import Header from "../components/Header";
-import { Box, SimpleGrid, Input } from "@chakra-ui/react";
-import UserCard from "../components/UserCard";
-import search from "../utils/SearchUtility";
+import { useState, useEffect } from "react";
+import useUser from "../../hooks/useUser";
+import Header from "../../components/Header";
+import { Box, SimpleGrid, Input, Text } from "@chakra-ui/react";
+import UserCard from "../../components/UserCard";
+import search from "../../utils/SearchUtility";
+import Loading from "../../components/Loading";
 
 const Users = () => {  
   const [query, setQuery] = useState("");
-  const data = useUser(query);
+  const {data, loading, error, getAllUsers} = useUser(query);
   const userKeys = ["firstname", "lastname", "email", "role_name"];
   const filteredUsers = search(data, query, userKeys);
+
+  useEffect(() => {
+    if (query.length === 0 || query.length > 2) {
+        getAllUsers();
+    }
+  }, [query]);
+
+  if(loading) return <Loading />;
 
   return (
     <Box m="20px">
@@ -37,11 +46,19 @@ const Users = () => {
 
       {/* CARDS */}
       <SimpleGrid 
-        spacing={4} 
-        templateColumns='repeat(auto-fill, minmax(200px, 1fr))'
-        mt={5}
+        spacing={10} 
+        templateColumns='repeat(auto-fill, minmax(400px, 1fr))'
+        m={50}
       >
         {filteredUsers.map(user => <UserCard key={user.id} user={user} />)}
+        
+        {error && (
+          <Text 
+            fontSize="2em"
+            as="b" 
+            color="red"
+            textAlign="center"
+          >{error.message}</Text>)}
       </SimpleGrid>
     </Box>   
   )

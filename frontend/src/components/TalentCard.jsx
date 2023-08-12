@@ -2,6 +2,7 @@ import {
     Text, Card, CardHeader, Heading, 
     CardBody, CardFooter, Button 
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 const TalentCard = ({ user }) => {
 
@@ -16,7 +17,7 @@ const TalentCard = ({ user }) => {
             <Text>View a summary of all your customers over the last month.</Text>
         </CardBody>
         <CardFooter>
-            <Button>View</Button>
+            <Button as={Link} to={`/dashboard/users/${user.id}`}>View</Button>
         </CardFooter>
     </Card>      
   )  

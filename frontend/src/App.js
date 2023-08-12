@@ -12,9 +12,10 @@ import Unauthorised from './pages/Unauthorised';
 import Dashboard from './pages/Dashboard';
 import Rate from './pages/Rate';
 import Projects from './pages/Projects';
-import Talents from './pages/Talents';
+import Talents from './pages/Talents/Talents';
 import Vacancies from './pages/Vacancies';
-import Users from './pages/Users';
+import Users from './pages/Users/Users';
+import UserDetails from './pages/Users/UserDetails';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Notification from './pages/Notfication';
@@ -26,6 +27,7 @@ import Loading from './components/Loading';
 //layouts
 import { DashboardLayout } from './layouts/DashboardLayout';
 import { PublicLayout } from './layouts/PublicLayout';
+
 
 
 
@@ -59,6 +61,7 @@ function App() {
               <Route path="/dashboard/talents" element={<Talents />} />
               <Route path="/dashboard/vacancies" element={<Vacancies />} />
               <Route path="/dashboard/users" element={<RoleAuthRoute allowedRoles={[ROLES.Admin]}><Users /></RoleAuthRoute>} />
+              <Route path="/dashboard/users/:id" element={<RoleAuthRoute allowedRoles={[ROLES.Admin]}><UserDetails /></RoleAuthRoute>} />
               <Route path="/dashboard/profile" element={<Profile />} />
               <Route path="/dashboard/settings" element={<Settings />} />
               <Route path="/dashboard/notifications" element={<Notification />} />

@@ -1,14 +1,14 @@
 import { 
-  Grid, GridItem, Box, 
-  Text, Button, Link, useMediaQuery
+  Grid, GridItem, Box, Link as ChakraLink, 
+  Text, Button
 } from '@chakra-ui/react'
+import { Link as RouterLink } from 'react-router-dom';
 import { useLogin } from '../hooks/useLogin';
 import { Formik } from "formik";
 import { LoginSchema } from '../Validations/UserValidation';
-import TextField from '../components/Form/TextField';
+import FloatTextField from '../components/Form/FloatTextField';
 
 export default function Login() {
-  const isNonMobile = useMediaQuery("(min-width:600px)");
   const { login, isLoading, error } = useLogin();
   const initialValues = {    
     usernameOrEmail: '',
@@ -46,22 +46,22 @@ export default function Login() {
         background="white"
       >
         <Grid
-          templateColumns={isNonMobile ? "repeat(4, 1fr)" : "repeat(1, 1fr)"}
+          templateColumns={["repeat(1, 1fr)", "repeat(4, 1fr)"]}
           gap="30px"
           mx="auto"
           maxW={{ base: "100%", md: 500, xl: 600 }}
           m="20px"
         >
-          <GridItem colSpan={isNonMobile ? 4 : 1} textAlign="center">
+          <GridItem colSpan={[1, 4]} textAlign="center">
               <Text fontSize="xl" fontWeight="bold" my="30px">Login</Text>
           </GridItem>
-          <GridItem colSpan={isNonMobile ? 4 : 1}>
-            <TextField label="Username or Email" name="usernameOrEmail" placeholder="Username or Email" />
+          <GridItem colSpan={[1, 4]}>
+            <FloatTextField label="Username or Email" name="usernameOrEmail" placeholder="Username or Email" />
           </GridItem>
-          <GridItem colSpan={isNonMobile ? 4 : 1}>
-            <TextField label="Password" type="password" name="password" placeholder="Password" />
+          <GridItem colSpan={[1, 4]}>
+            <FloatTextField label="Password" type="password" name="password" placeholder="Password" />
           </GridItem>
-          <GridItem colSpan={isNonMobile ? 4 : 1} justifyContent="center" display="flex">
+          <GridItem colSpan={[1, 4]} justifyContent="center" display="flex">
             <Button
               colorScheme="green"
               fontWeight="bold"
@@ -73,12 +73,12 @@ export default function Login() {
             </Button>
           </GridItem>
             {error && (
-              <GridItem colSpan={isNonMobile ? 4 : 1}>
+              <GridItem colSpan={[1, 4]}>
                 <Text>{error}</Text>
               </GridItem>
             )}
-          <GridItem colSpan={isNonMobile ? 4 : 1} mb="30px">
-            <Text display="flex">If you are new, please <Link href="/signup" mx="5px"> join us</Link>.</Text>
+          <GridItem colSpan={[1, 4]} mb="30px">
+            <Text display="flex">If you are new, please <ChakraLink color="green" as={RouterLink} to="/signup" mx="5px">join us</ChakraLink>.</Text>
           </GridItem>
         </Grid>
       </Box>

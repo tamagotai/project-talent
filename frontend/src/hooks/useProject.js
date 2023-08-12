@@ -1,26 +1,79 @@
 import { useState, useEffect } from "react";
 import axios from "../api/axios";
 
-const useProject = (query) => {
-    const [data, setData] = useState([]);
-    const token = localStorage.getItem('token');
+const useProject = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const token = localStorage.getItem('token');
 
-    const getAllProjects = async () => {
-        try {
-            const res = await axios.get('/projects', {
-              headers: {'Authorization': `Bearer ${token}`}
-            });
-            setData(res.data);
-          } catch (error) {
-            console.error("Error fetching projects:", error);
-          }
+  const getAllProjects = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get('/projects', {
+        headers: {'Authorization': `Bearer ${token}`}
+      });
+      setData(res.data);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    useEffect(() => {        
-        if (query.length === 0 || query.length > 2) getAllProjects();
-    }, [query]);
+  const getProjectById = async (projectId) => {
+    setLoading(true);
+    try {
+      const res = await axios.get(`/projects/${projectId}`, {
+        headers: {'Authorization': `Bearer ${token}`}
+      });
+      setData(res.data);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return data;
+  const updateProject = async (projectId, updatedData) => {
+    setLoading(true);
+    try {
+      await axios.put(`/projects/${projectId}`, updatedData, {
+        headers: {'Authorization': `Bearer ${token}`}
+      });
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteProject = async (projectId) => {
+    setLoading(true);
+    try {
+      await axios.delete(`/projects/${projectId}`, {
+        headers: {'Authorization': `Bearer ${token}`}
+      });
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    data,
+    loading,
+    error,
+    getAllProjects,
+    getProjectById,
+    updateProject,
+    deleteProject
+  };
 }
 
 export default useProject;

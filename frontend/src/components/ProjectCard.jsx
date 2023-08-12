@@ -2,6 +2,7 @@ import {
   Text, Card, CardHeader, Heading, 
   CardBody, CardFooter, Button 
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 const ProjectCard = ({project}) => {
   console.log(project);
@@ -15,7 +16,7 @@ const ProjectCard = ({project}) => {
             <Text>{project.description}</Text>
         </CardBody>
         <CardFooter>
-            <Button>View</Button>
+            <Button as={Link} to={`/dashboard/projects/${project.id}`}>View</Button>
         </CardFooter>
     </Card>
     

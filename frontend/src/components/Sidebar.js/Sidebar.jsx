@@ -24,16 +24,17 @@ const CustomSidebar = () => {
       {/* MOBILE SIZE MENU */}
       <IconButton
         aria-label="Open menu"
-        icon={<AiOutlineMenuUnfold />}
+        icon={<AiOutlineMenuUnfold size="24px" color="green" />}
         onClick={onOpen}
-        display={{ base: "block", md: "none" }}      
+        display={{ base: "block", md: "none" }}   
+        variant="unstyled"   
       />
       <Drawer placement="right" onClose={onClose} isOpen={isOpen} size="xs">
         <DrawerOverlay>
-          <DrawerContent sx={SidebarStyles.baseStyle}>
+          <DrawerContent width="200px" maxWidth="200px" sx={SidebarStyles.baseStyle}>
             <DrawerCloseButton />
             <DrawerHeader>Menu</DrawerHeader>
-            <DrawerBody>
+            <DrawerBody padding="0">
               <Sidebar width="200px" rootStyles={{background: "#F2F2C9"}}>
               <Menu
                 menuItemStyles={{

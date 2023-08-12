@@ -8,11 +8,11 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
-  Box,
+  Select,
 } from "@chakra-ui/react";
 import { Field, useField } from "formik";
 
-const TextField = ({ label, type, ...props }) => {
+const NormalTextField = ({ label, type, options, ...props }) => {
   const [field, meta] = useField(props);
   const [showPassword, setShowPassword] = useState(false);
   const handlePasswordVisibility = () => setShowPassword(!showPassword);
@@ -37,12 +37,22 @@ const TextField = ({ label, type, ...props }) => {
         </InputGroup>
       );
       break;
+    case 'select':
+      inputField = (
+        <Field as={Select} {...field} {...props}>
+          <option value="" label="Select option" disabled hidden />
+          {options.map((option, index) => (
+            <option key={index} value={option.value} label={option.label} />
+          ))}
+        </Field>
+      );
+      break;
     default:
       inputField = <Field as={Input} {...field} {...props} placeholder=" " />;
   }
 
   return (
-    <FormControl isInvalid={meta.error && meta.touched} variant="floating">
+    <FormControl isInvalid={meta.error && meta.touched}>
       {inputField}
       <FormLabel>{label}</FormLabel>
       <FormErrorMessage>{meta.error}</FormErrorMessage>
@@ -50,4 +60,4 @@ const TextField = ({ label, type, ...props }) => {
   );
 };
 
-export default TextField;
+export default NormalTextField;

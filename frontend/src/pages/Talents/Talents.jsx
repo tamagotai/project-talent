@@ -1,15 +1,24 @@
-import { useState } from "react";
-import useTalent from "../hooks/useTalent";
-import TalentCard from "../components/TalentCard";
-import search from "../utils/SearchUtility";
-import Header from "../components/Header";
-import { Box, Input, SimpleGrid} from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import useTalent from "../../hooks/useTalent";
+import TalentCard from "../../components/TalentCard";
+import search from "../../utils/SearchUtility";
+import Header from "../../components/Header";
+import { Box, Input, SimpleGrid, Text} from "@chakra-ui/react";
+import Loading from "../../components/Loading";
 
 const Talents = () => {
   const [query, setQuery] = useState("");
-  const data = useTalent(query);
+  const {data, loading, error, getAllTalents} = useTalent(query);
   const talentKeys = ["firstname", "lastname", "email", "skill_name"];
   const filteredTalents = search(data, query, talentKeys);
+
+  useEffect(() => {
+    if (query.length === 0 || query.length > 2) {
+        getAllTalents();
+    }
+  }, [query]);
+
+  if(loading) return <Loading />;
 
   return (
     <Box m="20px">
@@ -38,11 +47,19 @@ const Talents = () => {
 
       {/* CARDS */}
       <SimpleGrid 
-        spacing={4} 
-        templateColumns='repeat(auto-fill, minmax(200px, 1fr))'
-        mt={5}
+        spacing={10} 
+        templateColumns='repeat(auto-fill, minmax(400px, 1fr))'
+        m={50}
       >
         {filteredTalents.map(talent => <TalentCard key={talent.id} user={talent} />)}
+
+        {error && (
+          <Text 
+            fontSize="2em"
+            as="b" 
+            color="red"
+            textAlign="center"
+          >{error.message}</Text>)}
       </SimpleGrid>
     </Box>   
   )

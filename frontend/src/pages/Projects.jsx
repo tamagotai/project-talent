@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useProject from "../hooks/useProject";
 import Header from "../components/Header";
-import { Box, SimpleGrid, Input} from "@chakra-ui/react";
+import { Box, SimpleGrid, Input, Text} from "@chakra-ui/react";
 import ProjectCard from "../components/ProjectCard";
 import search from "../utils/SearchUtility";
+import Loading from "../components/Loading";
 
 const Projects = () => {
   const [query, setQuery] = useState("");
-  const data = useProject(query);
+  const {data, loading, error, getAllProjects} = useProject(query);
   const projectKeys = ["project_name", "description", "project_organiser", "start_date", "end_date"];
   const filteredProjects = search(data, query, projectKeys);
+
+  useEffect(() => {
+    if (query.length === 0 || query.length > 2) {
+        getAllProjects();
+    }
+  }, [query]);
+
+  if(loading) return <Loading />;
   
   return (
     <Box m="20px">
@@ -38,11 +47,19 @@ const Projects = () => {
 
       {/* CARDS */}
       <SimpleGrid 
-        spacing={4} 
-        templateColumns='repeat(auto-fill, minmax(200px, 1fr))'
-        mt={5}
+        spacing={10} 
+        templateColumns='repeat(auto-fill, minmax(400px, 1fr))'
+        m={50}
       >
         {filteredProjects.map(project => <ProjectCard key={project.id} project={project} />)}
+
+        {error && (
+          <Text 
+            fontSize="2em"
+            as="b" 
+            color="red"
+            textAlign="center"
+          >{error.message}</Text>)}
       </SimpleGrid>
 
     </Box>

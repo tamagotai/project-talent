@@ -1,26 +1,79 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "../api/axios";
 
-const useTalent = (query) => {
-    const [data, setData] = useState([]);
-    const token = localStorage.getItem('token');
+const useTalent = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const token = localStorage.getItem('token');
 
-    useEffect(() => {
-        const fetchTalents = async () => {
-          try {
-            const res = await axios.get('/users/talents', {
-              headers: {'Authorization': `Bearer ${token}`}
-            });
-            setData(res.data);
-          } catch (error) {
-            console.error("Error fetching talents:", error);
-          }
-        };
-        
-        if (query.length === 0 || query.length > 2) fetchTalents();
-    }, [query]);
+  const getAllTalents = async () => {
+    setLoading(true);
+    try {
+        const res = await axios.get('/users/talents', {
+          headers: {'Authorization': `Bearer ${token}`}
+        });
+        setData(res.data);
+        setError(null);
+      } catch (error) {
+        console.error("Error fetching talents:", error);
+      } finally {
+        setLoading(false);
+      }
+  };
 
-    return data;
+  const getTalentById = async (talentId) => {
+    setLoading(true);
+    try {
+      const res = await axios.get(`/talents/${talentId}`, {
+        headers: {'Authorization': `Bearer ${token}`}
+      });
+      setData(res.data);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateTalent = async (talentId, updatedData) => {
+    setLoading(true);
+    try {
+      await axios.put(`/talents/${talentId}`, updatedData, {
+        headers: {'Authorization': `Bearer ${token}`}
+      });
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteTalent = async (talentId) => {
+    setLoading(true);
+    try {
+      await axios.delete(`/talents/${talentId}`, {
+        headers: {'Authorization': `Bearer ${token}`}
+      });
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    data,
+    loading,
+    error,
+    getAllTalents,
+    getTalentById,
+    updateTalent,
+    deleteTalent
+  };
 }
 
 export default useTalent;

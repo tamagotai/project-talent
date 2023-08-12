@@ -33,3 +33,12 @@ export const LoginSchema = yup.object().shape({
       return isUsernameValid || isEmailValid;
     }),
 })
+
+export const UserDetailsSchema = yup.object().shape({
+  username: yup.string().required('Please enter your Username'),
+  firstname: yup.string().required('Please enter your First Name'),
+  lastname: yup.string().required('Please enter your Last Name'),
+  email: yup.string().email('Invalid email').required("please enter your email"),
+  mobile: yup.string().matches(phoneRegExp, 'Invalid mobile number'),
+  landline: yup.string().matches(phoneRegExp, 'Invalid phone number'),    
+})

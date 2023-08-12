@@ -7,6 +7,7 @@ import errorController from './controllers/errorController.js';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
+import skillRoutes from './routes/skillRoutes.js';
 
 // CONFIGURATION
 const app = express();
@@ -29,6 +30,7 @@ app.use(cors({
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/skills', skillRoutes);
 
 //error handler
 app.use(errorController.get404);

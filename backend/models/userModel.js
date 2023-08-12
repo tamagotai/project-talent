@@ -13,12 +13,25 @@ export default {
   },
 
   getUserById: async (id) => {
-    const [records] = await pool.query(`
-      SELECT *
+    const [userRecords] = await pool.query(`
+      SELECT user.*, role.role_name
       FROM user
-      WHERE id = ?
+      LEFT JOIN role ON user.role_id = role.id
+      WHERE user.id = ?
     `, [id]);
-    return records[0] || null;
+
+    const [skillRecords] = await pool.query(`
+      SELECT user_skill.skill_id, skill.skill_name, user_skill.experience_years, user_skill.hourly_wage
+      FROM user_skill
+      JOIN skill ON user_skill.skill_id = skill.id
+      WHERE user_skill.user_id = ?
+    `, [id]);
+
+    const user = userRecords[0] || null;
+    if (user) {
+      user.skills = skillRecords;
+    }
+    return user;
   },
 
   getUsersByRole: async (roleId) => {

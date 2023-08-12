@@ -1,12 +1,16 @@
+import { Link } from "react-router-dom";
 import { 
     Text, Card, CardHeader, Heading, 
     CardBody, CardFooter, Button 
 } from "@chakra-ui/react";
 
 const UserCard = ({ user }) => {
-
-  return (   
-        
+    // const navigate = useNavigate();
+    // const viewUserDetails = () =>{
+    //     navigate("/dashboard/users/${user.id}")
+    // };
+    
+  return (           
     <Card key={user.id}>
         <CardHeader>
             <Heading size='md'>{user.firstname} {user.lastname}</Heading>
@@ -16,7 +20,7 @@ const UserCard = ({ user }) => {
             <Text>View a summary of all your customers over the last month.</Text>
         </CardBody>
         <CardFooter>
-            <Button>View</Button>
+            <Button as={Link} to={`/dashboard/users/${user.id}`}>View</Button>
         </CardFooter>
     </Card>      
   )  

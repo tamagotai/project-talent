@@ -1,15 +1,15 @@
 import { 
   Text, Button, Box, GridItem,
-  Grid, Link, useMediaQuery 
+  Grid, Link as ChakraLink 
 } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
 import { Formik } from "formik";
 import { useSignup } from '../hooks/useSignup';
 import { SignupSchema } from '../Validations/UserValidation';
-import TextField from '../components/Form/TextField';
+import FloatTextField from '../components/Form/FloatTextField';
 import RadioInput from '../components/Form/RadioInput';
 
 export default function Signup() {
-  const isNonMobile = useMediaQuery("(min-width:600px)");
   const { signup, isLoading, error } = useSignup();
   const initialValues = {
     role: 'talent',
@@ -61,16 +61,16 @@ export default function Signup() {
         background="white"
       >        
         <Grid
-          templateColumns={isNonMobile ? "repeat(4, 1fr)" : "repeat(1, 1fr)"}
+          templateColumns={["repeat(1, 1fr)", "repeat(4, 1fr)"]}
           gap="30px"
           mx="auto"
           maxW={{ base: "100%", md: 500, xl: 600 }}
           m="20px"
         > 
-          <GridItem colSpan={isNonMobile ? 4 : 1} textAlign="center">
-              <Text fontSize="xl" fontWeight="bold" my="30px">Sign Up</Text>
+          <GridItem colSpan={[1, 4]} textAlign="center">
+              <Text fontSize={["md", "xl"]} fontWeight="bold" my="30px">Sign Up</Text>
           </GridItem>
-          <GridItem colSpan={isNonMobile ? 4 : 1}>
+          <GridItem colSpan={[1, 4]}>
             <RadioInput
               label="Select your role"
               name="role"
@@ -80,31 +80,31 @@ export default function Signup() {
               ]}
             />
           </GridItem>       
-          <GridItem colSpan={isNonMobile ? 4 : 1}>
-            <TextField label="Username" name="username" placeholder="Username" />
+          <GridItem colSpan={[1, 4]}>
+            <FloatTextField label="Username" name="username" placeholder="Username" />
           </GridItem>
-          <GridItem colSpan={isNonMobile ? 2 : 1}>         
-            <TextField label="Firstname" name="firstname" placeholder="Firstname" />
+          <GridItem colSpan={[1, 2]}>         
+            <FloatTextField label="Firstname" name="firstname" placeholder="Firstname" />
           </GridItem>
-          <GridItem colSpan={isNonMobile ? 2 : 1}> 
-          <TextField label="Lastname" name="lastname" placeholder="Lastname" />
+          <GridItem colSpan={[1, 2]}> 
+            <FloatTextField label="Lastname" name="lastname" placeholder="Lastname" />
           </GridItem>
-          <GridItem colSpan={isNonMobile ? 4 : 1}>       
-            <TextField label="Email" name="email" placeholder="Email" />
+          <GridItem colSpan={[1, 4]}>       
+            <FloatTextField label="Email" name="email" placeholder="Email" />
           </GridItem>
-          <GridItem colSpan={isNonMobile ? 2 : 1}>
-            <TextField label="Mobile" type="tel" name="mobile" placeholder="Mobile" />
+          <GridItem colSpan={[1, 2]}>
+            <FloatTextField label="Mobile" type="tel" name="mobile" placeholder="Mobile" />
           </GridItem>
-          <GridItem colSpan={isNonMobile ? 2 : 1}>
-            <TextField label="Landline" type="tel" name="landline" placeholder="Landline" />
+          <GridItem colSpan={[1, 2]}>
+            <FloatTextField label="Landline" type="tel" name="landline" placeholder="Landline" />
           </GridItem>
-          <GridItem colSpan={isNonMobile ? 4 : 1}>
-            <TextField label="Password" type="password" name="password" placeholder="Password" />
+          <GridItem colSpan={[1, 4]}>
+            <FloatTextField label="Password" type="password" name="password" placeholder="Password" />
           </GridItem>
-          <GridItem colSpan={isNonMobile ? 4 : 1}>
-            <TextField label="Confirm Password" type="password" name="confirmPassword" placeholder="Confirm password" />
+          <GridItem colSpan={[1, 4]}>
+            <FloatTextField label="Confirm Password" type="password" name="confirmPassword" placeholder="Confirm password" />
           </GridItem>
-          <GridItem colSpan={isNonMobile ? 4 : 1} justifyContent="center" display="flex">
+          <GridItem colSpan={[1, 4]} justifyContent="center" display="flex">
             <Button
               colorScheme="green"
               fontWeight="bold"
@@ -116,12 +116,12 @@ export default function Signup() {
             </Button>
             </GridItem>
             {error && (
-              <GridItem colSpan={isNonMobile ? 4 : 1}>
+              <GridItem colSpan={[1, 4]}>
                 <Text>{error}</Text>
               </GridItem>
             )}
-          <GridItem colSpan={isNonMobile ? 4 : 1} my="30px">
-            <Text display="flex">If you have an account, please <Link href="/login" mx="5px"> login </Link>.</Text>
+          <GridItem colSpan={[1, 4]} my="30px">
+            <Text display="flex">If you have an account, please <ChakraLink color="green" as={RouterLink} to="/login" mx="5px">login</ChakraLink>.</Text>
           </GridItem>
         </Grid>                
       </Box>

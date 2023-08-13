@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "../api/axios";
 
 const useProject = () => {
@@ -7,7 +7,7 @@ const useProject = () => {
   const [error, setError] = useState(null);
   const token = localStorage.getItem('token');
 
-  console.log("data:", data)
+  console.log("project data:", data)
 
   const getAllProjects = async () => {
     setLoading(true);

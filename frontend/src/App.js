@@ -1,4 +1,3 @@
-import RequireAuth from './utils/RoleAuthRoute';
 import RoleAuthRoute from './utils/RoleAuthRoute';
 import AuthRoute from './utils/AuthRoute';
 import { Routes, Route } from 'react-router-dom';
@@ -12,6 +11,7 @@ import Unauthorised from './pages/Unauthorised';
 import Dashboard from './pages/Dashboard';
 import Rate from './pages/Rate';
 import Projects from './pages/Projects/Projects';
+import ProjectDetails from './pages/Projects/ProjectDetails';
 import Talents from './pages/Talents/Talents';
 import TalentDetails from './pages/Talents/TalentDetails';
 import Vacancies from './pages/Vacancies';
@@ -28,10 +28,6 @@ import Loading from './components/Loading';
 //layouts
 import { DashboardLayout } from './layouts/DashboardLayout';
 import { PublicLayout } from './layouts/PublicLayout';
-
-
-
-
 
 const ROLES = {
   'Admin': 1,
@@ -60,6 +56,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />}/>
               <Route path="/dashboard/rate" element={<Rate />} />
               <Route path="/dashboard/projects" element={<Projects />} />
+              <Route path="/dashboard/projects/:id" element={<ProjectDetails />} />
               <Route path="/dashboard/talents" element={<Talents />} />
               <Route path="/dashboard/talents/:id" element={<TalentDetails />} />
               <Route path="/dashboard/vacancies" element={<Vacancies />} />

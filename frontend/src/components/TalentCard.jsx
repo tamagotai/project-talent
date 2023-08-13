@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export const TalentCard = ({ user, skills }) => {
 
   return (           
-    <Card>
+    <Card key={user.id}>
         <CardHeader>
             <Heading size='md'>{user.firstname} {user.lastname}</Heading>
         </CardHeader>

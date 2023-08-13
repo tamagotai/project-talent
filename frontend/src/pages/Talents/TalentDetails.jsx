@@ -25,7 +25,7 @@ const TalentDetails = () => {
     <Box m="20px">
         {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header  title="Talents details" subtitle="" />
+        <Header  title="Talent details" subtitle="" />
       </Box>
 
       <Box background="white" display="flex" flexDirection="column" maxW={{ base: "100%", md: 800, xl: 1000 }}>

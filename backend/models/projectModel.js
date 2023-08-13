@@ -2,30 +2,68 @@ import pool from '../database.js';
 
 export default {
   getAllProjects: async () => {
-    const [records] = await pool.query(`
-      SELECT p.*, GROUP_CONCAT(i.industry_name) as industry_names, 
-      u.firstname as organiser_firstname, u.lastname as organiser_lastname
+    const [projects] = await pool.query(`
+      SELECT p.*, i.id as industry_id, i.industry_name, 
+      u.firstname as organiser_firstname, u.lastname as organiser_lastname,
+      GROUP_CONCAT(v.description) as vacancy_descriptions
       FROM project p
       LEFT JOIN project_industry pi ON p.id = pi.project_id
       LEFT JOIN industry i ON pi.industry_id = i.id
       LEFT JOIN user u ON p.organiser_id = u.id
-      GROUP BY p.id
+      LEFT JOIN vacancy v ON p.id = v.project_id
+      GROUP BY p.id, i.id
     `);
-    return records;
+
+    // Aggregate industries for each project
+    const result = [];
+    const projectMap = {};
+    for (const project of projects) {
+        if (!projectMap[project.id]) {
+            projectMap[project.id] = {
+                ...project,
+                industries: []
+            };
+            if (project.industry_id && project.industry_name) {
+                projectMap[project.id].industries.push({
+                    id: project.industry_id,
+                    name: project.industry_name
+                });
+            }
+            result.push(projectMap[project.id]);
+        } else {
+            if (project.industry_id && project.industry_name) {
+                projectMap[project.id].industries.push({
+                    id: project.industry_id,
+                    name: project.industry_name
+                });
+            }
+        }
+    }
+    return result;
   },
 
   getProjectById: async (id) => {
-    const [records] = await pool.query(`
-      SELECT p.*, GROUP_CONCAT(i.industry_name) as industry_names,
-      u.firstname as organiser_firstname, u.lastname as organiser_lastname
+    const [projects] = await pool.query(`
+      SELECT p.*, i.id as industry_id, i.industry_name,
+      u.firstname as organiser_firstname, u.lastname as organiser_lastname,
+      GROUP_CONCAT(v.description) as vacancy_descriptions
       FROM project p
       LEFT JOIN project_industry pi ON p.id = pi.project_id
       LEFT JOIN industry i ON pi.industry_id = i.id
       LEFT JOIN user u ON p.organiser_id = u.id
+      LEFT JOIN vacancy v ON p.id = v.project_id
       WHERE p.id = ?
-      GROUP BY p.id
+      GROUP BY p.id, i.id
     `, [id]);
-    return records[0] || null;
+
+    const project = projects[0];
+    if (!project) return null;
+
+    const result = {
+        ...project,
+        industries: projects.map(p => ({ id: p.industry_id, name: p.industry_name })).filter(industry => industry.id && industry.name)
+    };
+    return result;
   },
 
   deleteProject: async (id) => {

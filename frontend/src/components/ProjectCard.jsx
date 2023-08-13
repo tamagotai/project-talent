@@ -4,14 +4,16 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-const ProjectCard = ({project}) => {
-  console.log(project);
+const ProjectCard = ({project, industries}) => {
+  console.log("Industries:", industries);
   return (
     
     <Card key={project.id}>
         <CardHeader>
-            <Heading size='lg'>{project.project_name}</Heading>
-            <Text color="green">{project.industry_names}</Text>
+            <Heading size='lg' color="#91818A">{project.project_name}</Heading>
+            {industries?.map(industry => (
+                <Badge key={industry.id} colorScheme="green" size='xl' mr="5px" my="5px">{industry.name}</Badge>
+            ))}
             
         </CardHeader>
         <CardBody>

@@ -9,8 +9,15 @@ import Loading from "../../components/Loading";
 const Projects = () => {
   const [query, setQuery] = useState("");
   const {data, loading, error, getAllProjects} = useProject(query);
-  const projectKeys = ["project_name", "description", "project_organiser", "start_date", "end_date", "industry_names"];
-  const filteredProjects = search(data, query, projectKeys);
+  const flattenIndustries = (project) => {
+      return {
+          ...project,
+          industriesString: project.industries.map(industry => industry.name).join(', ')
+      };
+  };
+  const flattenedProjects = data.map(flattenIndustries);
+  const projectKeys = ["project_name", "description", "start_date", "end_date", "organiser_firstname", "organiser_lastname", "industriesString"];
+  const filteredProjects = search(flattenedProjects, query, projectKeys);
 
   useEffect(() => {
     if (query.length === 0 || query.length > 2) {
@@ -51,7 +58,7 @@ const Projects = () => {
         templateColumns='repeat(auto-fill, minmax(400px, 1fr))'
         m={50}
       >
-        {filteredProjects.map(project => <ProjectCard key={project.id} project={project} />)}
+        {filteredProjects.map(project => <ProjectCard key={project.id} project={project} industries={project.industries}/>)}
 
         {error && (
           <Text 

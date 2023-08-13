@@ -35,9 +35,33 @@ export default {
   },
 
   getUsersByRole: async (roleId) => {
-    const[records] = await pool.query("SELECT * FROM user WHERE role_id = ?", [roleId]);
-    return records;
-  },
+    const [users] = await pool.query(`
+      SELECT user.*, role.role_name
+      FROM user
+      LEFT JOIN role ON user.role_id = role.id
+      WHERE user.role_id = ?
+    `, [roleId]);
+
+    // Check if any user records exist. If not, return an empty array.
+    if (users.length === 0) {
+        return [];
+    }
+
+    // Loop through each user and fetch their skills
+    for (let i = 0; i < users.length; i++) {
+        const userId = users[i].id;
+        const [skillRecords] = await pool.query(`
+            SELECT user_skill.skill_id, skill.skill_name, user_skill.experience_years, user_skill.hourly_wage
+            FROM user_skill
+            JOIN skill ON user_skill.skill_id = skill.id
+            WHERE user_skill.user_id = ?
+        `, [userId]);
+
+        users[i].skills = skillRecords;
+    }
+
+    return users;
+},
 
   deleteUser: async (id) => {
     const [{affectedRows}] = await pool.query(`

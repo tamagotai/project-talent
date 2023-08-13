@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
-import useProject from "../hooks/useProject";
-import Header from "../components/Header";
+import useProject from "../../hooks/useProject";
+import Header from "../../components/Header";
 import { Box, SimpleGrid, Input, Text} from "@chakra-ui/react";
-import ProjectCard from "../components/ProjectCard";
-import search from "../utils/SearchUtility";
-import Loading from "../components/Loading";
+import ProjectCard from "../../components/ProjectCard";
+import search from "../../utils/SearchUtility";
+import Loading from "../../components/Loading";
 
 const Projects = () => {
   const [query, setQuery] = useState("");
   const {data, loading, error, getAllProjects} = useProject(query);
-  const projectKeys = ["project_name", "description", "project_organiser", "start_date", "end_date"];
+  const projectKeys = ["project_name", "description", "project_organiser", "start_date", "end_date", "industry_names"];
   const filteredProjects = search(data, query, projectKeys);
 
   useEffect(() => {

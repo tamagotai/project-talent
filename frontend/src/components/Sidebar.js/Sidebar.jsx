@@ -35,7 +35,7 @@ const CustomSidebar = () => {
             <DrawerCloseButton />
             <DrawerHeader>Menu</DrawerHeader>
             <DrawerBody padding="0">
-              <Sidebar width="200px" rootStyles={{background: "#F2F2C9"}}>
+              <Sidebar position="sticky" top="0" height="100vh" zIndex="sticky" width="200px" rootStyles={{background: "#F2F2C9"}}>
               <Menu
                 menuItemStyles={{
                   button: ({ active }) => {
@@ -61,7 +61,7 @@ const CustomSidebar = () => {
       </Drawer>
 
       {/* NonMOBILE SIZE MENU */}
-      <Box as="aside" sx={SidebarStyles.baseStyle} display={{ base: "none", md: "block" }}>
+      <Box position="sticky" top="0" height="100vh" zIndex="sticky" as="aside" sx={SidebarStyles.baseStyle} display={{ base: "none", md: "block" }}>
         {/* WEBSITE LOGO */}
         <Center h="50px"><Logo /></Center>
         <Sidebar width="200px" rootStyles={{background: "#F2F2C9"}}>

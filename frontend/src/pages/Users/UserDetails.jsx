@@ -88,35 +88,48 @@ const UserDetails = () => {
                         <GridItem colSpan={[1, 4]} textAlign="left" mt="5px">
                             <Text as="b" color="gray.500" fontSize="xl">Skills</Text>
                         </GridItem>
-                        
+                        <GridItem colSpan={[1, 4]}>
                         <FieldArray
                             name="skills"
                             render={arrayHelpers => (
                                 <div>
                                     {formik.values.skills && formik.values.skills.length > 0 ? (
                                         formik.values.skills.map((skill, index) => (
-                                            <div key={index}>
-                                                <NormalTextField 
-                                                    label="Skill" 
-                                                    type="select" 
-                                                    name={`skills[${index}].skill_id`} 
-                                                    options={allSkills.map(skill => ({ value: skill.skill_id, label: skill.skill_name }))} 
-                                                    defaultValue={userData.skills.skill_name}
-                                                />
-                                                <NormalTextField 
-                                                    label="Experience Years" 
-                                                    type="number" 
-                                                    name={`skills[${index}].experience_years`} 
-                                                />
-                                                <NormalTextField 
-                                                    label="Hourly Wage" 
-                                                    type="number" 
-                                                    name={`skills[${index}].hourly_wage`} 
-                                                />
-                                                <Button onClick={() => arrayHelpers.remove(index)}>
-                                                    Delete
-                                                </Button>
-                                            </div>
+                                            <Grid
+                                                key={index}
+                                                templateColumns={["repeat(1, 1fr)", "repeat(5, 1fr)"]} 
+                                                gap="30px"
+                                                my="20px"
+                                            >
+                                                <GridItem colSpan={[2, 2]}>
+                                                    <NormalTextField 
+                                                        label="Skill" 
+                                                        type="select" 
+                                                        name={`skills[${index}].skill_id`} 
+                                                        options={allSkills.map(skill => ({ value: skill.skill_id, label: skill.skill_name }))} 
+                                                        defaultValue={userData.skills.skill_name}
+                                                    />
+                                                </GridItem>
+                                                <GridItem colSpan={[1, 1]}>
+                                                    <NormalTextField 
+                                                        label="Experience" 
+                                                        type="experience" 
+                                                        name={`skills[${index}].experience_years`} 
+                                                    />
+                                                </GridItem>
+                                                <GridItem colSpan={[1, 1]}>
+                                                    <NormalTextField 
+                                                        label="Hourly Wage" 
+                                                        type="wage" 
+                                                        name={`skills[${index}].hourly_wage`} 
+                                                    />
+                                                </GridItem>
+                                                <GridItem colSpan={[1, 1]} display="flex" flexDirection="column" justifyContent="flex-end">
+                                                    <Button onClick={() => arrayHelpers.remove(index)} display="inline-block">
+                                                        Delete
+                                                    </Button>
+                                                </GridItem>
+                                            </Grid>
                                         ))
                                     ) : null}
                                     <Button onClick={() => arrayHelpers.push({ skill_id: '', experience_years: '', hourly_wage: '' })}>
@@ -125,6 +138,7 @@ const UserDetails = () => {
                                 </div>
                             )}
                         />
+                        </GridItem>
                         
                         <GridItem colSpan={[1, 4]} textAlign="center" mt="20px">
                             <Button

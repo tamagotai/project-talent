@@ -11,8 +11,9 @@ import Signup from './pages/Signup';
 import Unauthorised from './pages/Unauthorised';
 import Dashboard from './pages/Dashboard';
 import Rate from './pages/Rate';
-import Projects from './pages/Projects';
+import Projects from './pages/Projects/Projects';
 import Talents from './pages/Talents/Talents';
+import TalentDetails from './pages/Talents/TalentDetails';
 import Vacancies from './pages/Vacancies';
 import Users from './pages/Users/Users';
 import UserDetails from './pages/Users/UserDetails';
@@ -27,6 +28,7 @@ import Loading from './components/Loading';
 //layouts
 import { DashboardLayout } from './layouts/DashboardLayout';
 import { PublicLayout } from './layouts/PublicLayout';
+
 
 
 
@@ -59,6 +61,7 @@ function App() {
               <Route path="/dashboard/rate" element={<Rate />} />
               <Route path="/dashboard/projects" element={<Projects />} />
               <Route path="/dashboard/talents" element={<Talents />} />
+              <Route path="/dashboard/talents/:id" element={<TalentDetails />} />
               <Route path="/dashboard/vacancies" element={<Vacancies />} />
               <Route path="/dashboard/users" element={<RoleAuthRoute allowedRoles={[ROLES.Admin]}><Users /></RoleAuthRoute>} />
               <Route path="/dashboard/users/:id" element={<RoleAuthRoute allowedRoles={[ROLES.Admin]}><UserDetails /></RoleAuthRoute>} />

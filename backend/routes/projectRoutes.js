@@ -19,4 +19,9 @@ router.put('/:id', verifyToken, projectController.updateProject)
 //CREATE a new project
 router.post('/create', projectController.createProject)
 
+// Upsert a project (can be used to update an existing project or create a new one)
+// If id is provided in params, it will update the project with that id
+// Otherwise, it will create a new project
+router.post('/upsert/:id?', verifyToken, projectController.upsertProject)
+
 export default router;

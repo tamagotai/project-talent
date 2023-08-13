@@ -7,6 +7,8 @@ const useProject = () => {
   const [error, setError] = useState(null);
   const token = localStorage.getItem('token');
 
+  console.log("data:", data)
+
   const getAllProjects = async () => {
     setLoading(true);
     try {

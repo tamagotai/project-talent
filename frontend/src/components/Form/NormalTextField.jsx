@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputRightElement,
-  IconButton,
-  Select,
+  FormControl, FormErrorMessage, FormLabel, Input,
+  InputGroup, InputRightElement, InputLeftAddon,
+  NumberInput, NumberInputField, IconButton, Select,
+  NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper
 } from "@chakra-ui/react";
 import { Field, useField } from "formik";
 
@@ -37,6 +33,48 @@ const NormalTextField = ({ label, type, options, ...props }) => {
         </InputGroup>
       );
       break;
+    case 'wage':
+    const wageFormat = (val) => `$${val}`;
+    const wageParse = (val) => val.replace(/^\$/, '');
+    inputField = (
+        <NumberInput
+        {...field}
+        onChange={(valueString) => field.onChange(field.name)(wageParse(valueString))}
+        value={wageFormat(field.value)}
+        precision={2}
+        step={0.5}
+        >
+        <NumberInputField {...props} />
+        <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+        </NumberInputStepper>
+        </NumberInput>
+    );
+    break;
+    case 'experience':
+        const experienceFormat = (val) => `${val}`;
+        const experienceParse = (val) => val.replace(/[^\d.]/g, ''); // Removing non-numeric characters
+        inputField = (
+            <InputGroup display="flex">
+                <NumberInput
+                    flex="1"
+                    {...field}
+                    onChange={(valueString) => field.onChange(field.name)(experienceParse(valueString))}
+                    value={experienceFormat(field.value)}
+                    precision={1}
+                    step={0.5}
+                >
+                    <NumberInputField {...props} />
+                    <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                    </NumberInputStepper>
+                </NumberInput>
+                <InputLeftAddon children="Years" bg="transparent" borderLeft="none" />
+            </InputGroup>
+        );
+    break;
     case 'select':
       inputField = (
         <Field as={Select} {...field} {...props}>
@@ -53,8 +91,8 @@ const NormalTextField = ({ label, type, options, ...props }) => {
 
   return (
     <FormControl isInvalid={meta.error && meta.touched}>
+      <FormLabel style={labelStyle}>{label}</FormLabel>
       {inputField}
-      <FormLabel>{label}</FormLabel>
       <FormErrorMessage>{meta.error}</FormErrorMessage>
     </FormControl>
   );

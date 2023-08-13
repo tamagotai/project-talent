@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import useTalent from "../../hooks/useTalent";
-import TalentCard from "../../components/TalentCard";
+import {TalentCard} from "../../components/TalentCard";
 import search from "../../utils/SearchUtility";
 import Header from "../../components/Header";
 import { Box, Input, SimpleGrid, Text} from "@chakra-ui/react";
@@ -9,9 +9,18 @@ import Loading from "../../components/Loading";
 const Talents = () => {
   const [query, setQuery] = useState("");
   const {data, loading, error, getAllTalents} = useTalent(query);
-  const talentKeys = ["firstname", "lastname", "email", "skill_name"];
-  const filteredTalents = search(data, query, talentKeys);
+  const flattenSkills = (talent) => {
+    return {
+        ...talent,
+        skillsString: talent.skills.map(skill => skill.skill_name).join(', ')
+    };
+  };
+  const flattenedTalents = data.map(flattenSkills);
+  const talentKeys = ["firstname", "lastname", "email", "skillsString"];
+  const filteredTalents = search(flattenedTalents, query, talentKeys);
 
+  console.log("talentdata:", data)
+  
   useEffect(() => {
     if (query.length === 0 || query.length > 2) {
         getAllTalents();
@@ -19,7 +28,7 @@ const Talents = () => {
   }, [query]);
 
   if(loading) return <Loading />;
-
+  console.log("talents:", data)
   return (
     <Box m="20px">
       {/* HEADER */}
@@ -51,7 +60,7 @@ const Talents = () => {
         templateColumns='repeat(auto-fill, minmax(400px, 1fr))'
         m={50}
       >
-        {filteredTalents.map(talent => <TalentCard key={talent.id} user={talent} />)}
+        {filteredTalents.map(talent => <TalentCard key={talent.id} user={talent} skills={talent.skills} />)}
 
         {error && (
           <Text 

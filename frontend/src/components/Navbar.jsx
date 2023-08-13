@@ -23,7 +23,15 @@ const Navbar = () => {
   const isPrivateRoute = location.pathname.startsWith('/dashboard');
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2}>
+    <Box 
+      display="flex" 
+      justifyContent="space-between" 
+      p={2}
+      position="sticky" 
+      top="0" 
+      zIndex="sticky" 
+      bgColor="#F4F4EB"
+    >
       
       {user? ( 
         //login status: show avatar, dashbaord and logout icons

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import useVacancy from "../hooks/useVacancy";
-import Header from "../components/Header";
+import useVacancy from "../../hooks/useVacancy";
+import Header from "../../components/Header";
 import { Box, SimpleGrid, Input, Text } from "@chakra-ui/react";
-import VacancyCard from "../components/VacancyCard";
-import search from "../utils/SearchUtility";
-import Loading from "../components/Loading";
+import VacancyCard from "../../components/VacancyCard";
+import search from "../../utils/SearchUtility";
+import Loading from "../../components/Loading";
 
 const Vacancies = () => {
   const [query, setQuery] = useState("");

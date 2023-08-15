@@ -4,8 +4,7 @@ export default {
   getAllProjects: async () => {
     const [projects] = await pool.query(`
       SELECT p.*, i.id as industry_id, i.industry_name, 
-      u.firstname as organiser_firstname, u.lastname as organiser_lastname,
-      GROUP_CONCAT(v.description) as vacancy_descriptions
+      u.firstname as organiser_firstname, u.lastname as organiser_lastname
       FROM project p
       LEFT JOIN project_industry pi ON p.id = pi.project_id
       LEFT JOIN industry i ON pi.industry_id = i.id
@@ -46,23 +45,45 @@ export default {
     const [projects] = await pool.query(`
       SELECT p.*, i.id as industry_id, i.industry_name,
       u.firstname as organiser_firstname, u.lastname as organiser_lastname,
-      GROUP_CONCAT(v.description) as vacancy_descriptions
+      v.id as vacancy_id, v.vacancy_name, v.description as vacancy_description, v.hourly_wage
       FROM project p
       LEFT JOIN project_industry pi ON p.id = pi.project_id
       LEFT JOIN industry i ON pi.industry_id = i.id
       LEFT JOIN user u ON p.organiser_id = u.id
       LEFT JOIN vacancy v ON p.id = v.project_id
       WHERE p.id = ?
-      GROUP BY p.id, i.id
     `, [id]);
 
     const project = projects[0];
     if (!project) return null;
 
+    const industries = projects.map(p => ({ id: p.industry_id, name: p.industry_name }))
+                               .filter((industry, index, self) => 
+                                  index === self.findIndex((t) => ( //findIndex function to remove duplication
+                                    t.id === industry.id && t.name === industry.name
+                                  ))
+                               );
+
+    const vacancies = projects.map(p => ({ id: p.vacancy_id, name: p.vacancy_name, description: p.vacancy_description, hourly_wage: p.hourly_wage }))
+                              .filter((vacancy, index, self) => 
+                                  index === self.findIndex((t) => (
+                                    t.id === vacancy.id && t.name === vacancy.name && t.description === vacancy.description
+                                  ))
+                              );
+
     const result = {
         ...project,
-        industries: projects.map(p => ({ id: p.industry_id, name: p.industry_name })).filter(industry => industry.id && industry.name)
+        industries,
+        vacancies
     };
+
+    delete result.vacancy_description;  // remove unnecessary properties
+    delete result.vacancy_id;
+    delete result.vacancy_name;
+    delete result.industry_id;
+    delete result.industry_name;
+    delete result.hourly_wage;
+    
     return result;
   },
 

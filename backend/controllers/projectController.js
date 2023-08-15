@@ -8,7 +8,7 @@ export default {
 
   getProject: async (req, res) => {
     const project = await projectModel.getProjectById(req.params.id);
-    if (!user)
+    if (!project)
       res.status(404).json('no reocrd with given id :' + req.params.id)
     else
       res.json(project)

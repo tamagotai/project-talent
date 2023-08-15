@@ -1,26 +1,26 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import useProject from "../../hooks/useProject";
+import useVacancy from "../../hooks/useVacancy";
 import Header from "../../components/Header";
-import { VacancyInProjectCard } from "../../components/ProjectCard";
-import { Box, Heading, Text, SimpleGrid, Grid, GridItem, Badge, Divider } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import { Box, Heading, Text, SimpleGrid, Grid, GridItem, Badge, Button } from "@chakra-ui/react";
 import Loading from "../../components/Loading";
 
 
-const ProjectDetails = () => {
+const VacancyDetails = () => {
     const { id } = useParams();
-    const { data, loading, error, getProjectById } = useProject();
+    const { data, loading, error, getVacancyById } = useVacancy();
     
     //update date format
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
     }
-    console.log("projectData:", data)
+    console.log("Vacancy Data:", data)
 
 
     useEffect(() => {
-        getProjectById(id);
+        getVacancyById(id);
     }, [id]);
 
     if(loading) return <Loading />;
@@ -28,7 +28,7 @@ const ProjectDetails = () => {
     <Box m="20px">
         {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header  title="Project details" subtitle="" />
+        <Header  title="Vacancy details" subtitle="" />
       </Box>
 
       <Box background="white" display="flex" flexDirection="column" maxW={{ base: "100%", md: 800, xl: 1000 }}>
@@ -39,7 +39,7 @@ const ProjectDetails = () => {
             m="20px"
         >
             <GridItem colSpan={[1, 4]} textAlign="left" mt="20px">
-                <Heading color="#91818A">{data.project_name}</Heading>                
+                <Heading color="#91818A">{data.vacancy_name}</Heading>                
             </GridItem>
             <GridItem colSpan={[1, 4]} textAlign="left" mt="5px">
                 <Text as="b" color="gray.500" fontSize="xl">Details</Text>
@@ -51,45 +51,40 @@ const ProjectDetails = () => {
                 <Text fontSize="md">{data.description}</Text>
             </GridItem>
             <GridItem colSpan={[1, 1]} textAlign="left" mt="5px">
-                <Text ml="20px" as="b" fontSize="md">Period</Text>
+                <Text ml="20px" as="b" fontSize="md">Project</Text>
+            </GridItem>
+            <GridItem colSpan={[1, 1]} textAlign="left" mt="5px">
+                <Text as={Link} to={`/dashboard/projects/${data.project_id}`} color="green.700" fontSize="md">{data.project_name}</Text>
+            </GridItem>
+            <GridItem colSpan={[1, 2]} textAlign="left">
+                <Button size="sm" as={Link} to={`/dashboard/projects/${data.project_id}`}>View</Button>
+            </GridItem>
+            <GridItem colSpan={[1, 1]} textAlign="left" mt="0px">
+                <Text ml="20px" as="b" fontSize="md">Project period</Text>
+            </GridItem>
+            <GridItem colSpan={[1, 3]} textAlign="left" mt="0px">
+                <Text fontSize="md">{formatDate(data.start_date)} - {formatDate(data.end_date)}</Text>
+            </GridItem>
+            <GridItem colSpan={[1, 1]} textAlign="left" mt="5px">
+                <Text ml="20px" as="b" fontSize="md">Skills requirement</Text>
             </GridItem>
             <GridItem colSpan={[1, 3]} textAlign="left" mt="5px">
-                <Text fontSize="md">{formatDate(data.start_date)} - {formatDate(data.end_date)}</Text>
+                {data.skills?.map((skill, index) => (
+                    <Badge key={index} colorScheme="green" size='xl' mr="5px" my="5px">{skill.name}</Badge>
+                ))}
             </GridItem>
             <GridItem colSpan={[1, 1]} textAlign="left" mt="5px">
                 <Text ml="20px" as="b" fontSize="md">Industry</Text>
             </GridItem>
             <GridItem colSpan={[1, 3]} textAlign="left" mt="5px">
-                {data.industries?.map(industry => (
-                    <Badge key={industry.id} colorScheme="green" size='xl' mr="5px" my="5px">{industry.name}</Badge>
+                {data.industries?.map((industry, index) => (
+                    <Badge key={index} colorScheme="green" size='xl' mr="5px" my="5px">{industry.name}</Badge>
                 ))}
             </GridItem>
-            <GridItem colSpan={[1, 4]} textAlign="left" mt="20px">
-                <Divider />
-            </GridItem>
-            <GridItem colSpan={[1, 4]} textAlign="left" mt="20px">
-                <Text as="b" color="gray.500" fontSize="xl">Vacancy available</Text>
-            </GridItem>
-            
-            {data.vacancies?.length >0 ? (
-                
-                <GridItem colSpan={[1, 4]}> 
-                    <SimpleGrid
-                        spacing={5} 
-                        templateColumns='repeat(auto-fill, minmax(200px, 1fr))'
-                    >
-                        {data.vacancies.map(vacancy =><VacancyInProjectCard key={vacancy.id} vacancy={vacancy}/>)}
-                    </SimpleGrid>
-                </GridItem>
-    
-            ) : (
-                <GridItem colSpan={[1, 4]} textAlign="left" mt="5px">
-                    <Text color="#2C3A2F">This project not require a role at this moment. Stay tune.</Text>
-                </GridItem>
-            )}
+        <Button mt="30px">Interest</Button>
             
         </Grid>
-     
+        
         {/* ERROR MSG */}
         {error && (
           <Text 
@@ -102,8 +97,9 @@ const ProjectDetails = () => {
           </Text>
         )}  
       </Box>
+      
     </Box>
   )
 }
 
-export default ProjectDetails;
+export default VacancyDetails;

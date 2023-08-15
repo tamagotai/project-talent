@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import useProject from "../../hooks/useProject";
 import Header from "../../components/Header";
 import { Box, SimpleGrid, Input, Text} from "@chakra-ui/react";
-import ProjectCard from "../../components/ProjectCard";
+import { ProjectCard } from "../../components/ProjectCard";
 import search from "../../utils/SearchUtility";
 import Loading from "../../components/Loading";
 

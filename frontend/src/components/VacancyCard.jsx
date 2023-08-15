@@ -10,8 +10,8 @@ import {
           <CardHeader>
               <Heading size='lg' color="#91818A">{vacancy.vacancy_name}</Heading>
               <Text fontSize="lg">{vacancy.related_project}</Text>
-              {vacancy.skills_required?.map(skill => (
-                  <Badge key={skill.id} colorScheme="blue" size='xl' mr="5px" my="5px">{skill.name}</Badge>
+              {vacancy.skills?.map(skill => (
+                  <Badge key={skill.id} colorScheme="green" size='xl' mr="5px" my="5px">{skill.name}</Badge>
               ))}
           </CardHeader>
           <CardBody>

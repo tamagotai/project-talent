@@ -4,8 +4,15 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-const ProjectCard = ({project, industries}) => {
+export const ProjectCard = ({project, industries}) => {
   console.log("Industries:", industries);
+
+  //update date format
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+}
+
   return (
     
     <Card key={project.id}>
@@ -17,7 +24,10 @@ const ProjectCard = ({project, industries}) => {
             
         </CardHeader>
         <CardBody>
-            <Text fontSize="lg">{project.description}</Text>
+            <Text fontSize="xl">{project.description}</Text>
+            <Text color="gray.700" mt="30px">
+              Period: {formatDate(project.start_date)} - {formatDate(project.end_date)}
+            </Text>
             <Text color="gray">organised by {project.organiser_firstname} {project.organiser_lastname}</Text>
         </CardBody>
         <CardFooter>
@@ -28,4 +38,19 @@ const ProjectCard = ({project, industries}) => {
   )
 }
 
-export default ProjectCard
+export const VacancyInProjectCard = ({ vacancy }) => {
+  return (
+    <Card key={vacancy.id}>
+        <CardHeader>
+            <Heading size='md' color="#91818A">{vacancy.name}</Heading>
+        </CardHeader>
+        <CardBody>
+            <Text fontSize="md">{vacancy.description}</Text>
+            <Text fontSize="sm" color="green">${vacancy.hourly_wage}/hr</Text>
+        </CardBody>
+        <CardFooter>
+            <Button as={Link} to={`/dashboard/vacancies/${vacancy.id}`}>View</Button>
+        </CardFooter>
+    </Card>
+  )
+}

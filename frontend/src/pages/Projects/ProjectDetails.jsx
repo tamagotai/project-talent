@@ -64,6 +64,12 @@ const ProjectDetails = () => {
                     <Badge key={industry.id} colorScheme="green" size='xl' mr="5px" my="5px">{industry.name}</Badge>
                 ))}
             </GridItem>
+            <GridItem colSpan={[1, 1]} textAlign="left" mt="5px">
+                <Text ml="20px" as="b" fontSize="md">Organiser</Text>
+            </GridItem>
+            <GridItem colSpan={[1, 3]} textAlign="left" mt="5px">
+                <Text fontSize="md">{data.organiser_firstname} {data.organiser_lastname}</Text>
+            </GridItem>
             <GridItem colSpan={[1, 4]} textAlign="left" mt="20px">
                 <Divider />
             </GridItem>

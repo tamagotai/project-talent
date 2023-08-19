@@ -40,7 +40,7 @@ export const useLogin = () => {
       navigate("/dashboard");
     } catch (err) {
       setIsLoading(false);
-      setError(err.message);
+      setError('Incorrect username, email or password. Please try again');
     } finally {
       //update loading state
       setIsLoading(false);

@@ -16,7 +16,9 @@ import {
           </CardHeader>
           <CardBody>
               <Text fontSize="lg">{vacancy.description}</Text>
+              <Text fontSize="md" color="grey.800" mt="20px">Project: {vacancy.project_name}</Text>
               <Text fontSize="md" color="green">${vacancy.hourly_wage}/hr</Text>
+              
           </CardBody>
           <CardFooter>
               <Button as={Link} to={`/dashboard/vacancies/${vacancy.id}`}>View</Button>

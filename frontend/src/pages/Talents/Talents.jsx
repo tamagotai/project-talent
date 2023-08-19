@@ -16,7 +16,7 @@ const Talents = () => {
     };
   };
   const flattenedTalents = data.map(flattenSkills);
-  const talentKeys = ["firstname", "lastname", "email", "skillsString"];
+  const talentKeys = ["firstname", "lastname", "skillsString"];
   const filteredTalents = search(flattenedTalents, query, talentKeys);
 
   console.log("talentdata:", data)

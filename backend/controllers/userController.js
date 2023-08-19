@@ -66,7 +66,7 @@ export default {
         token: token,
       });
     } catch (error) {
-      res.status(401).json({ error: error.message });
+      res.status(401).json({ error: 'Incorrect username, email or password entered. Please try again.' });
     }
   },
 

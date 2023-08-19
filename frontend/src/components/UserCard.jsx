@@ -13,7 +13,9 @@ const UserCard = ({ user }) => {
             <Badge colorScheme="green">{user.role_name}</Badge>
         </CardHeader>
         <CardBody>
-            <Text>View a summary of all your customers over the last month.</Text>
+            <Text>Email: {user.email}</Text>
+            <Text>Mobile: {user.mobile}</Text>
+            <Text>Landline: {user.landline}</Text>
         </CardBody>
         <CardFooter>
             <Button as={Link} to={`/dashboard/users/${user.id}`}>View</Button>

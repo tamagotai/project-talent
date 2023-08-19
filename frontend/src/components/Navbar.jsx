@@ -54,19 +54,19 @@ const Navbar = () => {
           </Link>}
 
           <Menu>
-            <MenuButton>
+            <MenuButton display="flex">
               <Avatar size="sm" mr="10px" bg="green.200" name={`${user.firstname} ${user.lastname}`}>
                 <AvatarBadge boxSize="1.25em" bg="green.800" />
               </Avatar>              
             </MenuButton>
             <MenuList>
-              <MenuItem onClick={() => { /* Handle Profile Navigation */ }}>
+              <MenuItem onClick={() => { navigate("/dashboard/profile") }}>
                 Profile
               </MenuItem>
-              <MenuItem onClick={() => { /* Handle Settings Navigation */ }}>
+              <MenuItem onClick={() => { navigate("/dashboard/settings") }}>
                 Settings
               </MenuItem>
-              <MenuItem onClick={() => { /* Handle Notifications Navigation */ }}>
+              <MenuItem onClick={() => { navigate("/dashboard/notifications") }}>
                 Notifications
               </MenuItem>
               <MenuDivider />

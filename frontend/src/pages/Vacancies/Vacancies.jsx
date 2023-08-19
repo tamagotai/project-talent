@@ -9,9 +9,9 @@ import Loading from "../../components/Loading";
 const Vacancies = () => {
   const [query, setQuery] = useState("");
   const {data, loading, error, getAllVacancies} = useVacancy(query);
-  const vacancyKeys = ["vacancy_name", "description", "related_project", "skills_required", "hourly_wage"];
+  const vacancyKeys = ["vacancy_name", "description", "project_name", "skills_name", "hourly_wage"];
   const filteredVacancies = search(data, query, vacancyKeys);
-  console.log("Vacancy data:", data)
+  console.log("Vacancy data:", filteredVacancies)
 
   useEffect(() => {
     if (query.length === 0 || query.length > 2) {

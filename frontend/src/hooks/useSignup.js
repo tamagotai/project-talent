@@ -33,7 +33,7 @@ export const useSignup = () => {
         }
     
         const { user, token, message } = await response.data;
-        console.log('Signup success:', message);
+        console.log('Signup success:', response.data.message);
     
         //save the user and token to local storage
         localStorage.setItem('user', JSON.stringify(user));
@@ -45,13 +45,16 @@ export const useSignup = () => {
         // navigate to dashboard on successful signup
         console.log('User sign up successfully. Redirecting to dashboard...');
         navigate("/dashboard");
-      } catch (err) {
+      } catch (error) {
         setIsLoading(false);
-        setError(err.message);
+        // Check if the error response from axios contains a message
+        if (error.response && error.response.data && error.response.data.message) {
+          setError(error.response.data.message); // Set the API's error message
+        } else {
+          setError(error.message); // Set a general error message
+        }
       } finally {
-        //update loading state
         setIsLoading(false);
-        
       }
     };
   return { signup, isLoading, error }

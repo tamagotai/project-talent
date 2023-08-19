@@ -41,13 +41,14 @@ export default function Signup() {
           values.confirmPassword
         ).then(response => {
           console.log("Signup success:", response); // Log successful response
+          actions.resetForm();
         })
         .catch((err) => {
           console.log("Signup error:", err); // Log any error
           actions.setSubmitting(false);
           actions.setErrors({ submit: err.message });
         });
-        actions.resetForm();
+        
       }}
     >
       {formik => (
@@ -59,6 +60,10 @@ export default function Signup() {
         justifySelf="center"
         mx="auto"
         background="white"
+        display="flex"
+        flexDirection="column" 
+        justifyContent="center" 
+        alignItems="center"
       >        
         <Grid
           templateColumns={["repeat(1, 1fr)", "repeat(4, 1fr)"]}
@@ -78,31 +83,32 @@ export default function Signup() {
                 { label: 'Talent', value: '2' },
                 { label: 'Project Organiser', value: '3' },
               ]}
+              {...formik}
             />
           </GridItem>       
           <GridItem colSpan={[1, 4]}>
-            <FloatTextField label="Username" name="username" placeholder="Username" />
+            <FloatTextField {...formik} label="Username" name="username" placeholder="Username" />
           </GridItem>
           <GridItem colSpan={[1, 2]}>         
-            <FloatTextField label="Firstname" name="firstname" placeholder="Firstname" />
+            <FloatTextField {...formik} label="Firstname" name="firstname" placeholder="Firstname" />
           </GridItem>
           <GridItem colSpan={[1, 2]}> 
-            <FloatTextField label="Lastname" name="lastname" placeholder="Lastname" />
+            <FloatTextField {...formik} label="Lastname" name="lastname" placeholder="Lastname" />
           </GridItem>
           <GridItem colSpan={[1, 4]}>       
-            <FloatTextField label="Email" name="email" placeholder="Email" />
+            <FloatTextField {...formik}label="Email" name="email" placeholder="Email" />
           </GridItem>
           <GridItem colSpan={[1, 2]}>
-            <FloatTextField label="Mobile" type="tel" name="mobile" placeholder="Mobile" />
+            <FloatTextField {...formik} label="Mobile" type="tel" name="mobile" placeholder="Mobile" />
           </GridItem>
           <GridItem colSpan={[1, 2]}>
-            <FloatTextField label="Landline" type="tel" name="landline" placeholder="Landline" />
+            <FloatTextField {...formik} label="Landline" type="tel" name="landline" placeholder="Landline" />
           </GridItem>
           <GridItem colSpan={[1, 4]}>
-            <FloatTextField label="Password" type="password" name="password" placeholder="Password" />
+            <FloatTextField {...formik} label="Password" type="password" name="password" placeholder="Password" />
           </GridItem>
           <GridItem colSpan={[1, 4]}>
-            <FloatTextField label="Confirm Password" type="password" name="confirmPassword" placeholder="Confirm password" />
+            <FloatTextField {...formik} label="Confirm Password" type="password" name="confirmPassword" placeholder="Confirm password" />
           </GridItem>
           <GridItem colSpan={[1, 4]} justifyContent="center" display="flex">
             <Button
@@ -117,7 +123,7 @@ export default function Signup() {
             </GridItem>
             {error && (
               <GridItem colSpan={[1, 4]}>
-                <Text>{error}</Text>
+                <Text color="red">{error}</Text>
               </GridItem>
             )}
           <GridItem colSpan={[1, 4]} my="30px">

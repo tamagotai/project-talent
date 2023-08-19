@@ -61,7 +61,7 @@ export default {
     }
 
     return users;
-},
+  },
 
   deleteUser: async (id) => {
     const [{affectedRows}] = await pool.query(`

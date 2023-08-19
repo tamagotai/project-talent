@@ -44,6 +44,10 @@ export default function Login() {
         justifySelf="center"
         mx="auto"
         background="white"
+        display="flex"
+        flexDirection="column" 
+        justifyContent="center" 
+        alignItems="center"
       >
         <Grid
           templateColumns={["repeat(1, 1fr)", "repeat(4, 1fr)"]}
@@ -74,7 +78,7 @@ export default function Login() {
           </GridItem>
             {error && (
               <GridItem colSpan={[1, 4]}>
-                <Text>{error}</Text>
+                <Text color="red">{error}</Text>
               </GridItem>
             )}
           <GridItem colSpan={[1, 4]} mb="30px">

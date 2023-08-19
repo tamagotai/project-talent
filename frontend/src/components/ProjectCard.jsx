@@ -1,12 +1,14 @@
 import { 
-  Text, Card, CardHeader, Heading, 
+  Text, Card, CardHeader, Heading, useMediaQuery, 
   CardBody, CardFooter, Button, Badge 
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 export const ProjectCard = ({project, industries}) => {
   console.log("Industries:", industries);
-
+  const [isMobile] = useMediaQuery("(max-width: 480px)");
+  const cardStyle = isMobile ? { width: "auto", padding: "1rem" } : { width: "480px", padding: "2rem" };
+ 
   //update date format
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -15,7 +17,7 @@ export const ProjectCard = ({project, industries}) => {
 
   return (
     
-    <Card key={project.id}>
+    <Card key={project.id} width={cardStyle} display="flex">
         <CardHeader>
             <Heading size='lg' color="#91818A">{project.project_name}</Heading>
             {industries?.map(industry => (

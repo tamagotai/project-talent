@@ -13,13 +13,13 @@ const Users = () => {
   const filteredUsers = search(data, query, userKeys);
 
   useEffect(() => {
-    if (query.length === 0 || query.length > 2) {
+    if ((query.length === 0) || (query.length > 2)) {
         getAllUsers();
     }
   }, [query]);
 
   if(loading) return <Loading />;
-
+  console.log("filteredUsers:", filteredUsers)
   return (
     <Box m="20px">
       {/* HEADER */}
